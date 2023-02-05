@@ -1,0 +1,5 @@
+- Prepravio sam EER dijagram, 
+dodao datum i vreme za payment_status o order_status, 
+stavio 1-to-1 za payment-order
+- Napisao sam jos neke endpoint-e u word fajlu
+- Uradio sam u Pycharm-u za sada samo osnovne direktorijume za sve tabele i napisao model za "users"

@@ -1,0 +1,7 @@
+CREATE USER 'b2bmarket'@'localhost' IDENTIFIED BY 'b2bmarket_pass';
+GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT, REFERENCES, RELOAD
+on *.* TO 'b2bmarket'@'localhost' WITH GRANT OPTION;
+
+FLUSH PRIVILEGES;
+
+CREATE DATABASE IF NOT EXISTS online_b2b_marketplace;
