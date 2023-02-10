@@ -17,6 +17,7 @@ class AdministratorSchema(BaseModel):
 class AdministratorSchemaIn(BaseModel):
     name: str
     surname: str
+    user_id: str
 
     class Config:
         orm_mode = True
