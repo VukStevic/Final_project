@@ -9,8 +9,6 @@ class BusinessType(Base):
     name = Column(String(90), unique=True)
     description = Column(String(90))
 
-    def __init__(self, id: str, name: str, description: str):
-        self.id = id
+    def __init__(self, name: str, description: str):
         self.name = name
         self.description = description
-
