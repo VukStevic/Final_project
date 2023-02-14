@@ -13,7 +13,7 @@ class User(Base):
     is_active = Column(Boolean(), default=True)
     is_superuser = Column(Boolean(), default=False)
 
-    def __init__(self, username: str, email: str, password: str, is_active: bool, is_superuser: bool):
+    def __init__(self, username: str, email: str, password: str, is_active=True, is_superuser=False):
         self.username = username
         self.email = email
         self.password = password

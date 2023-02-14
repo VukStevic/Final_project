@@ -22,7 +22,7 @@ class RetailerSchemaIn(BaseModel):
     hq_location: str
     landline: str
     business_email: EmailStr
-    business_type_id: UUID4
+    business_type_id: str
     user_id: str
 
     class Config:
@@ -34,7 +34,7 @@ class RetailerSchemaUpdate(BaseModel):
     hq_location: Optional[str]
     landline: Optional[str]
     business_email: Optional[EmailStr]
-    business_type_id: Optional[UUID4]
+    business_type_id: Optional[str]
 
     class Config:
         orm_mode = True
