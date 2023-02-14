@@ -21,10 +21,10 @@ class OrderSchema(BaseModel):
 
 class OrderSchemaIn(BaseModel):
     type: str
-    order_date: date
+    order_date: str
     quantity: float
-    wholesaler_id: UUID4
-    retailer_id: UUID4
+    wholesaler_id: str
+    retailer_id: str
 
     class Config:
         orm_mode = True
