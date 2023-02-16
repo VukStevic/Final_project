@@ -1,0 +1,2 @@
+from .wholesaler_has_products_controller import WholesalerHasProductsController
+

@@ -9,7 +9,7 @@ class ProductSchema(BaseModel):
     description: str
     price: float
     quantity_available: float
-    product_category_id: str
+    product_category_id: UUID4
     product_category: ProductCategorySchema
 
     class Config:
@@ -19,8 +19,8 @@ class ProductSchema(BaseModel):
 class ProductSchemaIn(BaseModel):
     name: str
     description: str
-    price: float
-    quantity_available: float
+    price: float or int
+    quantity_available: float or int
     product_category_id: str
 
     class Config:

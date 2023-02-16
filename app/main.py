@@ -5,6 +5,9 @@ from app.db.database import engine, Base
 from app.business_types.routes import business_type_router
 from app.order_product.routes import order_product_router
 from app.orders.routes import order_router
+from app.product_categories.routes import product_category_router
+from app.products.routes import product_router
+from app.wholesaler_has_products.routes import wholesaler_has_products_router
 from app.wholesalers.routes import wholesaler_router
 from app.retailers.routes import retailer_router
 from app.users.routes import user_router
@@ -20,6 +23,9 @@ def init_app():
     app.include_router(wholesaler_router)
     app.include_router(retailer_router)
     app.include_router(user_router)
+    app.include_router(product_router)
+    app.include_router(product_category_router)
+    app.include_router(wholesaler_has_products_router)
     return app
 
 
