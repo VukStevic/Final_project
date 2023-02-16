@@ -10,7 +10,7 @@ class Retailer(Base):
     name = Column(String(90), unique=True)
     hq_location = Column(String(90))
     landline = Column(String(90))
-    business_email = Column(String(90), default=True)
+    business_email = Column(String(90))
 
     business_type_id = Column(String(90), ForeignKey("business_types.id"))
     business_type = relationship("BusinessType", lazy='subquery')

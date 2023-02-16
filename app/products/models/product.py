@@ -11,8 +11,8 @@ class Product(Base):
     price = Column(Float)
     quantity_available = Column(Float)
 
-    product_category_id = Column(String(90), ForeignKey("product_categories.id"))
-    product_category = relationship("ProductCategory", lazy="subquery")
+    # product_category_id = Column(String(90), ForeignKey("product_categories.id"))
+    # product_category = relationship("ProductCategory", lazy="subquery")
 
     def __init__(self, name: str, description: str, price: float, quantity_available: float, product_category_id: str):
         self.name = name

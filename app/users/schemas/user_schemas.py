@@ -15,6 +15,7 @@ class UserSchema(BaseModel):
 
 
 class UserSchemaIn(BaseModel):
+    username: str
     email: EmailStr
     password: str
 

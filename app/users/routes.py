@@ -8,12 +8,12 @@ user_router = APIRouter(tags=["users"], prefix="/api/users")
 
 
 @user_router.post("/add-new-user", response_model=UserSchema)
-def create_user(user: UserSchema):
+def create_user(user: UserSchemaIn):
     return UserController.create_user(user.username, user.email, user.password)
 
 
-@user_router.post("/add-new-super-user", response_model=UserSchema, dependencies=[Depends(JWTBearer("super_user"))])
-def create_super_user(user: UserSchema):
+@user_router.post("/add-new-super-user", response_model=UserSchema, dependencies=[Depends(JWTBearer("classic_user"))])
+def create_super_user(user: UserSchemaIn):
     return UserController.create_super_user(user.username, user.email, user.password)
 
 

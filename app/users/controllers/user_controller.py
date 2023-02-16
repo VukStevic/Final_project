@@ -56,7 +56,7 @@ class UserController:
         else:
             raise HTTPException(
                 status_code=400,
-                detail=f"user with provided id {user_id} does not exist",
+                detail=f"User with provided id {user_id} does not exist",
             )
 
     @staticmethod
@@ -67,7 +67,7 @@ class UserController:
         else:
             raise HTTPException(
                 status_code=400,
-                detail=f"user with provided email {email} does not exist",
+                detail=f"User with provided email {email} does not exist",
             )
 
     @staticmethod
@@ -78,7 +78,7 @@ class UserController:
         else:
             raise HTTPException(
                 status_code=400,
-                detail=f"user with provided username {username} does not exist",
+                detail=f"User with provided username {username} does not exist",
             )
 
     @staticmethod
@@ -92,6 +92,6 @@ class UserController:
     @staticmethod
     def update_user_is_active(user_id: str, is_active: bool):
         try:
-            user = UserServices.update_user_is_active(user_id, is_active)
+            return UserServices.update_user_is_active(user_id, is_active)
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))

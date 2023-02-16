@@ -2,6 +2,7 @@ from sqlalchemy.orm import relationship
 from app.db.database import Base
 from sqlalchemy import Column, String, ForeignKey
 from uuid import uuid4
+from app.users.models import User
 
 
 class Wholesaler(Base):
@@ -10,13 +11,13 @@ class Wholesaler(Base):
     name = Column(String(90), unique=True)
     hq_location = Column(String(90))
     landline = Column(String(90))
-    business_email = Column(String(90), default=True)
+    business_email = Column(String(90))
 
     business_type_id = Column(String(90), ForeignKey("business_types.id"))
     business_type = relationship("BusinessType", lazy='subquery')
 
     user_id = Column(String(90), ForeignKey("users.id"))
-    user = relationship("User", lazy='subquery')
+    user = relationship(User, lazy='subquery')
 
     def __init__(self, name: str, hq_location: str, landline: str, business_email: str, business_type_id: str,
                  user_id: str):

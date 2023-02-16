@@ -59,6 +59,9 @@ class UserRepository:
             self.db.add(user)
             self.db.commit()
             self.db.refresh(user)
-            return user
+            if user is None:
+                print("user is None")
+            else:
+                return user
         except Exception as e:
             raise e
