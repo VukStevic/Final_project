@@ -1,0 +1,1 @@
+from .wholesaler_has_products_repository import WholesalerHasProductsRepository

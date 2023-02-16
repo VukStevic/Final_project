@@ -10,7 +10,7 @@ class WholesalerSchema(BaseModel):
     landline: str
     business_email: EmailStr
     business_type_id: UUID4
-    user_id: str
+    user_id: UUID4
     user: UserSchema
 
     class Config:
