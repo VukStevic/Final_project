@@ -18,7 +18,8 @@ class PaymentStatusSchema(BaseModel):
 class PaymentStatusSchemaIn(BaseModel):
     status_code: str
     status_description: str
-    date_and_time: datetime
+    date_and_time: Optional[str]
+    payment_id: str
 
     class Config:
         orm_mode = True

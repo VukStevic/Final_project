@@ -18,7 +18,8 @@ class OrderStatusSchema(BaseModel):
 class OrderStatusSchemaIn(BaseModel):
     status_code: str
     description: str
-    date_and_time: datetime
+    date_and_time: Optional[str]
+    order_id: str
 
     class Config:
         orm_mode = True

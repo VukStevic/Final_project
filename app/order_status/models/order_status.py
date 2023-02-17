@@ -13,8 +13,10 @@ class OrderStatus(Base):
     order_id = Column(String(90), ForeignKey("orders.id"))
     order = relationship("Order", lazy="subquery")
 
-    def __init__(self, status_code: str, description: str, date_and_time: datetime, order_id: str):
+    def __init__(self, status_code: str, status_description: str, order_id: str,
+                 date_and_time: str = datetime.now().strftime("%d-%m-%Y, %H:%M:%S"),
+                 ):
         self.status_code = status_code
-        self.status_description = description
-        self.date_and_time = date_and_time
-        self.payment_id = order_id
+        self.status_description = status_description
+        self.date_and_time = datetime.strptime(date_and_time, "%d-%m-%Y, %H:%M:%S")
+        self.order_id = order_id

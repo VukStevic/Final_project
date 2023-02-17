@@ -3,7 +3,7 @@ from app.retailers.controllers import RetailerController
 from app.retailers.schemas import *
 
 
-retailer_router = APIRouter(tags=["retailers"], prefix="/api/retailers")
+retailer_router = APIRouter(prefix="/api/retailers", tags=["Retailers"])
 
 
 @retailer_router.post("/add-new-retailer", response_model=RetailerSchema)

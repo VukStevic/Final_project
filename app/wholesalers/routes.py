@@ -3,7 +3,7 @@ from app.wholesalers.controllers import WholesalerController
 from app.wholesalers.schemas import *
 
 
-wholesaler_router = APIRouter(tags=["wholesalers"], prefix="/api/wholesalers")
+wholesaler_router = APIRouter(prefix="/api/wholesalers", tags=["Wholesalers"])
 
 
 @wholesaler_router.post("/add-new-wholesaler", response_model=WholesalerSchema)
