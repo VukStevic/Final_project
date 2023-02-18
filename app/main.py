@@ -20,18 +20,18 @@ Base.metadata.create_all(bind=engine)
 
 def init_app():
     app = FastAPI()
-    app.include_router(business_type_router)
-    app.include_router(order_product_router)
-    app.include_router(order_router)
-    app.include_router(wholesaler_router)
-    app.include_router(retailer_router)
     app.include_router(user_router)
+    app.include_router(wholesaler_router)
+    app.include_router(wholesaler_has_products_router)
+    app.include_router(retailer_router)
+    app.include_router(business_type_router)
+    app.include_router(order_router)
+    app.include_router(order_status_router)
+    app.include_router(order_product_router)
     app.include_router(product_router)
     app.include_router(product_category_router)
-    app.include_router(wholesaler_has_products_router)
     app.include_router(payment_router)
     app.include_router(payment_status_router)
-    app.include_router(order_status_router)
     return app
 
 
