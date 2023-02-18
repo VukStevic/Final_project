@@ -4,10 +4,13 @@ from app.wholesalers.schemas import WholesalerSchema
 
 
 class WholesalerHasProductsSchema(BaseModel):
+    id: UUID4
     wholesaler_id: UUID4
     wholesaler: WholesalerSchema
     product_id: UUID4
     product: ProductSchema
+    price: float
+    quantity_available: float
 
     class Config:
         orm_mode = True
@@ -16,7 +19,8 @@ class WholesalerHasProductsSchema(BaseModel):
 class WholesalerHasProductsSchemaIn(BaseModel):
     wholesaler_id: str
     product_id: str
+    price: float
+    quantity_available: float
 
     class Config:
         orm_mode = True
-

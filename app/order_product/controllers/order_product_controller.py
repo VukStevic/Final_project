@@ -5,9 +5,9 @@ from fastapi import HTTPException, Response
 
 class OrderProductController:
     @staticmethod
-    def create_order_product(order_id: str, product_id: str):
+    def create_order_product(order_id: str, product_id: str, quantity: float):
         try:
-            order_product = OrderProductServices.create_order_product(order_id, product_id)
+            order_product = OrderProductServices.create_order_product(order_id, product_id, quantity)
             return order_product
         except IntegrityError:
             raise HTTPException(status_code=400, detail=f"Order product with provided "

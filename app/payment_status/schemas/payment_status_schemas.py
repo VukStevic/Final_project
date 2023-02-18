@@ -1,13 +1,14 @@
 from datetime import datetime
-from pydantic import BaseModel
+from pydantic import BaseModel, UUID4
 from typing import Optional
 from app.payments.schemas import PaymentSchema
 
 
 class PaymentStatusSchema(BaseModel):
+    id: UUID4
     status_code: str
     status_description: str
-    date_and_time: datetime
+    date_and_time: str
     payment_id: str
     payment: PaymentSchema
 
@@ -18,7 +19,6 @@ class PaymentStatusSchema(BaseModel):
 class PaymentStatusSchemaIn(BaseModel):
     status_code: str
     status_description: str
-    date_and_time: Optional[str]
     payment_id: str
 
     class Config:
@@ -28,7 +28,7 @@ class PaymentStatusSchemaIn(BaseModel):
 class PaymentStatusSchemaUpdate(BaseModel):
     status_code: Optional[str]
     status_description: Optional[str]
-    date_and_time: Optional[datetime]
+    date_and_time: Optional[str]
 
     class Config:
         orm_mode = True

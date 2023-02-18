@@ -10,8 +10,6 @@ product_router = APIRouter(prefix="/api/products", tags=["Products"])
 def create_product(product: ProductSchemaIn):
     return ProductController.create_product(name=product.name,
                                             description=product.description,
-                                            price=product.price,
-                                            quantity_available=product.quantity_available,
                                             product_category_id=product.product_category_id)
 
 
@@ -33,17 +31,6 @@ def get_product_by_name(name: str):
 @product_router.put("/update-product-description", response_model=ProductSchema)
 def update_product_description(product_id: str, description: str):
     return ProductController.update_product_description(product_id=product_id, description=description)
-
-
-@product_router.put("/update-product-price", response_model=ProductSchema)
-def update_product_price(product_id: str, price: float):
-    return ProductController.update_product_price(product_id=product_id, price=price)
-
-
-@product_router.put("/update-product-quantity-available", response_model=ProductSchema)
-def update_product_quantity_available(product_id: str, quantity_available: float):
-    return ProductController.update_product_quantity_available(product_id=product_id,
-                                                               quantity_available=quantity_available)
 
 
 @product_router.delete("/delete-product-by-id")

@@ -7,7 +7,7 @@ retailer_router = APIRouter(prefix="/api/retailers", tags=["Retailers"])
 
 
 @retailer_router.post("/add-new-retailer", response_model=RetailerSchema)
-def create_retailer(retailer: RetailerSchema):
+def create_retailer(retailer: RetailerSchemaIn):
     return RetailerController.create_retailer(retailer.name, retailer.hq_location, retailer.landline, 
                                               retailer.business_email, retailer.business_type_id, retailer.user_id)
 

@@ -5,11 +5,11 @@ from app.db.database import SessionLocal
 class PaymentServices:
 
     @staticmethod
-    def create_payment(payment_amount: float, order_id: str):
+    def create_payment(order_id: str):
         with SessionLocal() as db:
             try:
                 payment_repository = PaymentRepository(db)
-                return payment_repository.create_payment(payment_amount, order_id)
+                return payment_repository.create_payment(order_id)
             except Exception as e:
                 raise e
 
@@ -48,12 +48,3 @@ class PaymentServices:
                 return payment_repository.delete_payment_by_order_id(order_id)
         except Exception as e:
             raise e
-
-    @staticmethod
-    def update_payment_amount(payment_id: str, payment_amount: float):
-        with SessionLocal() as db:
-            try:
-                payment_repository = PaymentRepository(db)
-                return payment_repository.update_payment_amount(payment_id, payment_amount)
-            except Exception as e:
-                raise e

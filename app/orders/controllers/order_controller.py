@@ -5,9 +5,9 @@ from fastapi import HTTPException, Response
 
 class OrderController:
     @staticmethod
-    def create_order(type: str, order_date: str, quantity: float, wholesaler_id: str, retailer_id: str):
+    def create_order(type: str, order_date: str, wholesaler_id: str, retailer_id: str):
         try:
-            order = OrderServices.create_order(type, order_date, quantity, wholesaler_id, retailer_id)
+            order = OrderServices.create_order(type, order_date, wholesaler_id, retailer_id)
             return order
         except IntegrityError as e:
             raise HTTPException(status_code=400, detail=str(e))
@@ -47,12 +47,5 @@ class OrderController:
     def update_order_date(order_id: str, order_date: str):
         try:
             return OrderServices.update_order_date(order_id, order_date)
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=str(e))
-
-    @staticmethod
-    def update_order_quantity(order_id: str, quantity: float):
-        try:
-            return OrderServices.update_order_quantity(order_id, quantity)
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))

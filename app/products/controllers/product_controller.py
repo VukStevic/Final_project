@@ -5,10 +5,9 @@ from fastapi import HTTPException, Response
 
 class ProductController:
     @staticmethod
-    def create_product(name: str, description: str, price: float, quantity_available: float,
-                       product_category_id: str):
+    def create_product(name: str, description: str, product_category_id: str):
         try:
-            product = ProductServices.create_product(name, description, price, quantity_available, product_category_id)
+            product = ProductServices.create_product(name, description, product_category_id)
             return product
         except IntegrityError as e:
             raise HTTPException(status_code=400, detail=str(e))
@@ -50,19 +49,5 @@ class ProductController:
     def update_product_description(product_id: str, description: str):
         try:
             return ProductServices.update_product_description(product_id, description)
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=str(e))
-
-    @staticmethod
-    def update_product_price(product_id: str, price: float):
-        try:
-            return ProductServices.update_product_price(product_id, price)
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=str(e))
-
-    @staticmethod
-    def update_product_quantity_available(product_id: str, quantity_available: float):
-        try:
-            return ProductServices.update_product_quantity_available(product_id, quantity_available)
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))

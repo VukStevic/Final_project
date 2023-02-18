@@ -5,10 +5,9 @@ from fastapi import HTTPException, Response
 
 class OrderStatusController:
     @staticmethod
-    def create_order_status(status_code: str, description: str, date_and_time: str, order_id: str):
+    def create_order_status(status_code: str, description: str, order_id: str):
         try:
-            order_status = OrderStatusServices.create_order_status(status_code, description, date_and_time,
-                                                                   order_id)
+            order_status = OrderStatusServices.create_order_status(status_code, description, order_id)
             return order_status
         except IntegrityError as e:
             raise HTTPException(status_code=400, detail=str(e))
@@ -21,13 +20,13 @@ class OrderStatusController:
         return order_statuses
 
     @staticmethod
-    def get_order_status_by_status_code(status_code: str):
-        order_status = OrderStatusServices.get_order_status_by_status_code(status_code)
+    def get_order_status_by_id(id: str):
+        order_status = OrderStatusServices.get_order_status_by_id(id)
         if order_status:
             return order_status
         else:
             raise HTTPException(status_code=400, detail=f"Order status with provided "
-                                                        f"status code: {status_code} does not exist.")
+                                                        f"id: {id} does not exist.")
 
     @staticmethod
     def get_order_status_by_date_and_time(date_and_time: str):
@@ -39,10 +38,10 @@ class OrderStatusController:
                                                         f"date and time: {date_and_time} does not exist.")
 
     @staticmethod
-    def delete_order_status_by_status_code(status_code: str):
+    def delete_order_status_by_id(id: str):
         try:
-            OrderStatusServices.delete_order_status_by_status_code(status_code)
-            return Response(content=f'Order status with status code: "{status_code}" successfully deleted.')
+            OrderStatusServices.delete_order_status_by_id(id)
+            return Response(content=f'Order status with id: "{id}" successfully deleted.')
         except Exception as e:
             raise HTTPException(status_code=400, detail=str(e))
 
@@ -55,15 +54,15 @@ class OrderStatusController:
             raise HTTPException(status_code=400, detail=str(e))
 
     @staticmethod
-    def update_order_status(status_code: str, new_status_code: str):
+    def update_order_status(id: str, status_code: str):
         try:
-            return OrderStatusServices.update_order_status(status_code, new_status_code)
+            return OrderStatusServices.update_order_status(id, status_code)
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
 
     @staticmethod
-    def update_order_status_description(status_code: str, description: str):
+    def update_order_status_description(id: str, description: str):
         try:
-            return OrderStatusServices.update_order_status_description(status_code, description)
+            return OrderStatusServices.update_order_status_description(id, description)
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))

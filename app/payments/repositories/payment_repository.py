@@ -8,9 +8,9 @@ class PaymentRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create_payment(self, payment_amount: float, order_id: str):
+    def create_payment(self, order_id: str):
         try:
-            payment = Payment(payment_amount=payment_amount, order_id=order_id)
+            payment = Payment(order_id=order_id)
             self.db.add(payment)
             self.db.commit()
             self.db.refresh(payment)
@@ -45,16 +45,5 @@ class PaymentRepository:
             self.db.delete(payment)
             self.db.commit()
             return True
-        except Exception as e:
-            raise e
-
-    def update_payment_amount(self, payment_id: str, payment_amount: float):
-        try:
-            payment = self.db.query(Payment).filter(Payment.id == payment_id).first()
-            payment.payment_amount = payment_amount
-            self.db.add(payment)
-            self.db.commit()
-            self.db.refresh(payment)
-            return payment
         except Exception as e:
             raise e

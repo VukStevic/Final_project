@@ -5,14 +5,16 @@ from fastapi import HTTPException, Response
 
 class WholesalerHasProductsController:
     @staticmethod
-    def create_wholesaler_has_products(wholesaler_id: str, product_id: str):
+    def create_wholesaler_has_products(wholesaler_id: str, product_id: str, price: float, quantity_available: float):
         try:
-            wholesaler_has_products = WholesalerHasProductsServices.create_wholesaler_product(wholesaler_id, product_id)
+            wholesaler_has_products = WholesalerHasProductsServices.create_wholesaler_product(wholesaler_id, product_id,
+                                                                                              price, quantity_available)
             return wholesaler_has_products
-        except IntegrityError:
-            raise HTTPException(status_code=400, detail=f"Wholesaler product with provided "
-                                                        f"wholesaler_id/product_id: {wholesaler_id, product_id} "
-                                                        f"already exists.")
+        except IntegrityError as e:
+            return str(e)
+            # raise HTTPException(status_code=400, detail=f"Wholesaler product with provided "
+            #                                             f"wholesaler_id/product_id: {wholesaler_id, product_id} "
+            #                                             f"already exists.")
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
 
@@ -56,3 +58,19 @@ class WholesalerHasProductsController:
                                     f"successfully deleted.")
         except Exception as e:
             raise HTTPException(status_code=400, detail=str(e))
+
+    @staticmethod
+    def update_wholesaler_product_price(wholesaler_id: str, product_id: str, price: float):
+        try:
+            return WholesalerHasProductsServices.update_wholesaler_product_price(wholesaler_id, product_id, price)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
+
+    @staticmethod
+    def update_wholesaler_product_quantity_available(wholesaler_id: str, product_id: str, quantity_available: float):
+        try:
+            return WholesalerHasProductsServices.update_wholesaler_product_quantity_available(wholesaler_id,
+                                                                                              product_id,
+                                                                                              quantity_available)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))

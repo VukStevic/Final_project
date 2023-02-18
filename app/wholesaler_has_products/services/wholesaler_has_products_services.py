@@ -5,11 +5,12 @@ from app.db.database import SessionLocal
 class WholesalerHasProductsServices:
 
     @staticmethod
-    def create_wholesaler_product(wholesaler_id: str, product_id: str):
+    def create_wholesaler_product(wholesaler_id: str, product_id: str, price: float, quantity_available: float):
         with SessionLocal() as db:
             try:
                 wholesaler_has_products_repository = WholesalerHasProductsRepository(db)
-                return wholesaler_has_products_repository.create_wholesaler_product(wholesaler_id, product_id)
+                return wholesaler_has_products_repository.create_wholesaler_product(wholesaler_id, product_id, price,
+                                                                                    quantity_available)
             except Exception as e:
                 raise e
 
@@ -51,3 +52,23 @@ class WholesalerHasProductsServices:
                 return wholesaler_has_products_repository.delete_wholesaler_product_by_product_id(product_id)
         except Exception as e:
             raise e
+
+    @staticmethod
+    def update_wholesaler_product_price(wholesaler_id: str, product_id: str, price: float):
+        with SessionLocal() as db:
+            try:
+                wholesaler_product_repository = WholesalerHasProductsRepository(db)
+                return wholesaler_product_repository.update_wholesaler_product_price(wholesaler_id, product_id, price)
+            except Exception as e:
+                raise e
+
+    @staticmethod
+    def update_wholesaler_product_quantity_available(wholesaler_id: str, product_id: str, quantity_available: float):
+        with SessionLocal() as db:
+            try:
+                wholesaler_product_repository = WholesalerHasProductsRepository(db)
+                return wholesaler_product_repository.update_wholesaler_product_quantity_available(wholesaler_id,
+                                                                                                  product_id,
+                                                                                                  quantity_available)
+            except Exception as e:
+                raise e

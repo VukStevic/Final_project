@@ -14,7 +14,6 @@ class PaymentSchema(BaseModel):
 
 
 class PaymentSchemaIn(BaseModel):
-    payment_amount: float
     order_id: str
 
     class Config:

@@ -8,10 +8,9 @@ class OrderRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create_order(self, type: str, order_date: str, quantity: float, wholesaler_id: str, retailer_id: str):
+    def create_order(self, type: str, order_date: str, wholesaler_id: str, retailer_id: str):
         try:
-            order = Order(type=type, order_date=order_date, quantity=quantity, wholesaler_id=wholesaler_id,
-                          retailer_id=retailer_id)
+            order = Order(type=type, order_date=order_date, wholesaler_id=wholesaler_id, retailer_id=retailer_id)
             self.db.add(order)
             self.db.commit()
             self.db.refresh(order)
@@ -51,17 +50,6 @@ class OrderRepository:
         try:
             order = self.db.query(Order).filter(Order.id == order_id).first()
             order.order_date = order_date
-            self.db.add(order)
-            self.db.commit()
-            self.db.refresh(order)
-            return order
-        except Exception as e:
-            raise e
-
-    def update_order_quantity(self, order_id: str, quantity: float):
-        try:
-            order = self.db.query(Order).filter(Order.id == order_id).first()
-            order.quantity = quantity
             self.db.add(order)
             self.db.commit()
             self.db.refresh(order)

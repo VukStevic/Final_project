@@ -4,4 +4,4 @@ on *.* TO 'b2bmarket'@'localhost' WITH GRANT OPTION;
 
 FLUSH PRIVILEGES;
 
-CREATE DATABASE IF NOT EXISTS online_b2b_marketplace;
+CREATE DATABASE IF NOT EXISTS online_b2b_marketplace_1;

@@ -9,7 +9,6 @@ class OrderSchema(BaseModel):
     id: UUID4
     type: str
     order_date: date
-    quantity: float
     wholesaler_id: UUID4
     retailer_id: UUID4
     wholesaler: WholesalerSchema
@@ -22,7 +21,6 @@ class OrderSchema(BaseModel):
 class OrderSchemaIn(BaseModel):
     type: str
     order_date: str
-    quantity: float
     wholesaler_id: str
     retailer_id: str
 
@@ -33,7 +31,6 @@ class OrderSchemaIn(BaseModel):
 class OrderSchemaUpdate(BaseModel):
     type: Optional[str]
     order_date: Optional[date]
-    quantity: Optional[float]
 
     class Config:
         orm_mode = True

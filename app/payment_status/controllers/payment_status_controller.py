@@ -5,10 +5,9 @@ from fastapi import HTTPException, Response
 
 class PaymentStatusController:
     @staticmethod
-    def create_payment_status(status_code: str, status_description: str, date_and_time: str, payment_id: str):
+    def create_payment_status(status_code: str, status_description: str, payment_id: str):
         try:
-            payment_status = PaymentStatusServices.create_payment_status(status_code, status_description, date_and_time,
-                                                                         payment_id)
+            payment_status = PaymentStatusServices.create_payment_status(status_code, status_description, payment_id)
             return payment_status
         except IntegrityError as e:
             raise HTTPException(status_code=400, detail=str(e))
@@ -21,13 +20,13 @@ class PaymentStatusController:
         return payment_statuses
 
     @staticmethod
-    def get_payment_status_by_status_code(status_code: str):
-        payment_status = PaymentStatusServices.get_payment_status_by_status_code(status_code)
+    def get_payment_status_by_id(id: str):
+        payment_status = PaymentStatusServices.get_payment_status_by_id(id)
         if payment_status:
             return payment_status
         else:
             raise HTTPException(status_code=400, detail=f"Payment status with provided "
-                                                        f"status code: {status_code} does not exist.")
+                                                        f"id: {id} does not exist.")
 
     @staticmethod
     def get_payment_status_by_date_and_time(date_and_time: str):
@@ -39,10 +38,10 @@ class PaymentStatusController:
                                                         f"date and time: {date_and_time} does not exist.")
 
     @staticmethod
-    def delete_payment_status_by_status_code(status_code: str):
+    def delete_payment_status_by_id(id: str):
         try:
-            PaymentStatusServices.delete_payment_status_by_status_code(status_code)
-            return Response(content=f'Payment status with status code: "{status_code}" successfully deleted.')
+            PaymentStatusServices.delete_payment_status_by_id(id)
+            return Response(content=f'Payment status with id: "{id}" successfully deleted.')
         except Exception as e:
             raise HTTPException(status_code=400, detail=str(e))
 
@@ -55,15 +54,15 @@ class PaymentStatusController:
             raise HTTPException(status_code=400, detail=str(e))
 
     @staticmethod
-    def update_payment_status(status_code: str, new_status_code: str):
+    def update_payment_status(id: str, status_code: str):
         try:
-            return PaymentStatusServices.update_payment_status(status_code, new_status_code)
+            return PaymentStatusServices.update_payment_status(id, status_code)
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
 
     @staticmethod
-    def update_payment_status_description(status_code: str, status_description: str):
+    def update_payment_status_description(id: str, status_description: str):
         try:
-            return PaymentStatusServices.update_payment_status_description(status_code, status_description)
+            return PaymentStatusServices.update_payment_status_description(id, status_description)
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))

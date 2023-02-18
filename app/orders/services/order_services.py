@@ -5,11 +5,11 @@ from app.db.database import SessionLocal
 class OrderServices:
 
     @staticmethod
-    def create_order(type: str, order_date: str, quantity: float, wholesaler_id: str, retailer_id: str):
+    def create_order(type: str, order_date: str, wholesaler_id: str, retailer_id: str):
         with SessionLocal() as db:
             try:
                 order_repository = OrderRepository(db)
-                return order_repository.create_order(type, order_date, quantity, wholesaler_id, retailer_id)
+                return order_repository.create_order(type, order_date, wholesaler_id, retailer_id)
             except Exception as e:
                 raise e
 
@@ -49,16 +49,6 @@ class OrderServices:
             try:
                 order_repository = OrderRepository(db)
                 order = order_repository.update_order_date(order_id, order_date)
-                return order
-            except Exception as e:
-                raise e
-
-    @staticmethod
-    def update_order_quantity(order_id: str, quantity: float):
-        with SessionLocal() as db:
-            try:
-                order_repository = OrderRepository(db)
-                order = order_repository.update_order_quantity(order_id, quantity)
                 return order
             except Exception as e:
                 raise e

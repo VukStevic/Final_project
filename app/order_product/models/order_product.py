@@ -1,29 +1,25 @@
+from uuid import uuid4
 from app.db import Base
-from sqlalchemy import Column, String, Integer, ForeignKey
+from sqlalchemy import Column, String, ForeignKey, Float
 from sqlalchemy.orm import relationship
-
-from app.orders.models import Order
-from app.products.models import Product
+from app.wholesaler_has_products.services import WholesalerHasProductsServices
 
 
 class OrderProduct(Base):
     __tablename__ = "order_product"
-    order_id = Column(String(90), ForeignKey("orders.id"), primary_key=True)
-    product_id = Column(String(90), ForeignKey("products.id"), primary_key=True)
+    id = Column(String(90), primary_key=True, default=uuid4, autoincrement=False)
+    order_id = Column(String(90), ForeignKey("orders.id"))
+    product_id = Column(String(90), ForeignKey("wholesaler_has_products.product_id"))
+    price = Column(Float())
+    quantity = Column(Float())
 
     order = relationship("Order", lazy="subquery")
-    product = relationship("Product", lazy="subquery")
+    product = relationship("WholesalerHasProducts", lazy="subquery")
+#
 
-# class OrderProduct(Base):
-#     __tablename__ = 'order_products'
-#     order_id = Column(Integer, ForeignKey('orders.id'), primary_key=True)
-#     product_id = Column(Integer, ForeignKey('products.id'), primary_key=True)
-#     order = relationship("Order", back_populates="order_products")
-#     product = relationship("Product", back_populates="order_products")
-#
-#     Order.order_products = relationship("OrderProduct", back_populates="order")
-#     Product.order_products = relationship("OrderProduct", back_populates="product")
-#
-    def __init__(self, order_id: str, product_id: str):
+    def __init__(self, order_id: str, product_id: str, quantity: float):
         self.order_id = order_id
         self.product_id = product_id
+        wholesaler_product = WholesalerHasProductsServices.get_wholesaler_product_by_product_id(product_id)
+        self.price = wholesaler_product.price
+        self.quantity = quantity

@@ -1,13 +1,14 @@
 from datetime import datetime
-from pydantic import BaseModel
+from pydantic import BaseModel, UUID4
 from typing import Optional
 from app.orders.schemas import OrderSchema
 
 
 class OrderStatusSchema(BaseModel):
+    id: UUID4
     status_code: str
     description: str
-    date_and_time: datetime
+    date_and_time: str
     order_id: str
     order: OrderSchema
 
@@ -18,7 +19,6 @@ class OrderStatusSchema(BaseModel):
 class OrderStatusSchemaIn(BaseModel):
     status_code: str
     description: str
-    date_and_time: Optional[str]
     order_id: str
 
     class Config:
@@ -28,7 +28,7 @@ class OrderStatusSchemaIn(BaseModel):
 class OrderStatusSchemaUpdate(BaseModel):
     status_code: Optional[str]
     description: Optional[str]
-    date_and_time: Optional[datetime]
+    date_and_time: Optional[str]
 
     class Config:
         orm_mode = True

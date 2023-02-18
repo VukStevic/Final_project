@@ -10,7 +10,6 @@ order_status_router = APIRouter(prefix="/api/order-status", tags=["Order status"
 def create_order_status(order_status: OrderStatusSchemaIn):
     return OrderStatusController.create_order_status(status_code=order_status.status_code,
                                                      description=order_status.description,
-                                                     date_and_time=order_status.date_and_time,
                                                      order_id=order_status.order_id)
 
 
@@ -19,9 +18,9 @@ def get_all_order_statuses():
     return OrderStatusController.get_all_order_statuses()
 
 
-@order_status_router.get("/get-order_status-by-status-code", response_model=OrderStatusSchema)
-def get_order_status_by_status_code(status_code: str):
-    return OrderStatusController.get_order_status_by_status_code(status_code=status_code)
+@order_status_router.get("/get-order_status-by-id", response_model=OrderStatusSchema)
+def get_order_status_by_id(id: str):
+    return OrderStatusController.get_order_status_by_id(id=id)
 
 
 @order_status_router.get("/get-order_status-by-date-and-time", response_model=OrderStatusSchema)
@@ -30,11 +29,20 @@ def get_order_status_by_date_and_time(date_and_time: str):
 
 
 @order_status_router.put("/update-order_status", response_model=OrderStatusSchema)
-def update_order_status(status_code: str, new_status_code: str):
-    return OrderStatusController.update_order_status(status_code=status_code, new_status_code=new_status_code)
+def update_order_status(id: str, status_code: str):
+    return OrderStatusController.update_order_status(id=id, status_code=status_code)
 
 
 @order_status_router.put("/update-order_status-description", response_model=OrderStatusSchema)
-def update_order_status_description(status_code: str, description: str):
-    return OrderStatusController.update_order_status_description(status_code=status_code,
-                                                                 description=description)
+def update_order_status_description(id: str, description: str):
+    return OrderStatusController.update_order_status_description(id=id, description=description)
+
+
+@order_status_router.delete("/delete-order-status-by-id")
+def delete_order_status_by_id(id: str):
+    return OrderStatusController.delete_order_status_by_id(id=id)
+
+
+@order_status_router.delete("/delete-order-status-by-date-and-time")
+def delete_order_status_by_date_and_time(date_and_time: str):
+    return OrderStatusController.delete_order_status_by_date_and_time(date_and_time=date_and_time)

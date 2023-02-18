@@ -8,9 +8,10 @@ class WholesalerHasProductsRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create_wholesaler_product(self, wholesaler_id: str, product_id: str):
+    def create_wholesaler_product(self, wholesaler_id: str, product_id: str, price: float, quantity_available: float):
         try:
-            wholesaler_has_products = WholesalerHasProducts(wholesaler_id=wholesaler_id, product_id=product_id)
+            wholesaler_has_products = WholesalerHasProducts(wholesaler_id=wholesaler_id, product_id=product_id,
+                                                            price=price, quantity_available=quantity_available)
             self.db.add(wholesaler_has_products)
             self.db.commit()
             self.db.refresh(wholesaler_has_products)
@@ -49,5 +50,32 @@ class WholesalerHasProductsRepository:
             self.db.delete(wholesaler_has_products)
             self.db.commit()
             return True
+        except Exception as e:
+            raise e
+
+    def update_wholesaler_product_price(self, wholesaler_id: str, product_id: str, price: float):
+        try:
+            wholesaler_product = self.db.query(WholesalerHasProducts)\
+                .filter(WholesalerHasProducts.wholesaler_id == wholesaler_id,
+                        WholesalerHasProducts.product_id == product_id).first()
+            wholesaler_product.price = price
+            self.db.add(wholesaler_product)
+            self.db.commit()
+            self.db.refresh(wholesaler_product)
+            return wholesaler_product
+        except Exception as e:
+            raise e
+
+    def update_wholesaler_product_quantity_available(self, wholesaler_id: str, product_id: str,
+                                                     quantity_available: float):
+        try:
+            wholesaler_product = self.db.query(WholesalerHasProducts)\
+                .filter(WholesalerHasProducts.wholesaler_id == wholesaler_id,
+                        WholesalerHasProducts.product_id == product_id).first()
+            wholesaler_product.quantity_available = quantity_available
+            self.db.add(wholesaler_product)
+            self.db.commit()
+            self.db.refresh(wholesaler_product)
+            return wholesaler_product
         except Exception as e:
             raise e
