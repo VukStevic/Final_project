@@ -5,13 +5,14 @@ from fastapi import HTTPException, Response
 
 class OrderProductController:
     @staticmethod
-    def create_order_product(order_id: str, product_id: str, quantity: float):
+    def create_order_product(order_id: str, wholesaler_product_id: str, quantity: float):
         try:
-            order_product = OrderProductServices.create_order_product(order_id, product_id, quantity)
+            order_product = OrderProductServices.create_order_product(order_id, wholesaler_product_id, quantity)
             return order_product
         except IntegrityError:
             raise HTTPException(status_code=400, detail=f"Order product with provided "
-                                                        f"order_id/product_id: {order_id, product_id} already exists.")
+                                                        f"order_id/wholesaler_product_id: "
+                                                        f"{order_id, wholesaler_product_id} already exists.")
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
 
@@ -37,6 +38,15 @@ class OrderProductController:
         else:
             raise HTTPException(status_code=400, detail=f"Order product with provided "
                                                         f"id: {product_id} does not exist.")
+
+    @staticmethod
+    def get_order_product_by_id(id: str):
+        order_product = OrderProductServices.get_order_product_by_id(id)
+        if order_product:
+            return order_product
+        else:
+            raise HTTPException(status_code=400, detail=f"Order product with provided "
+                                                        f"id: {id} does not exist.")
 
     @staticmethod
     def delete_order_product_by_order_id(order_id: str):

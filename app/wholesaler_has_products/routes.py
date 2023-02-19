@@ -26,6 +26,11 @@ def get_wholesaler_product_by_wholesaler_id(wholesaler_id: str):
     return WholesalerHasProductsController.get_wholesaler_product_by_wholesaler_id(wholesaler_id=wholesaler_id)
 
 
+@wholesaler_has_products_router.get("/get-wholesaler-product-by-id", response_model=WholesalerHasProductsSchema)
+def get_wholesaler_product_by_id(id: str):
+    return WholesalerHasProductsController.get_wholesaler_product_by_id(id=id)
+
+
 @wholesaler_has_products_router.get("/get-wholesaler-product-by-product-id", response_model=WholesalerHasProductsSchema)
 def get_wholesaler_product_by_product_id(product_id: str):
     return WholesalerHasProductsController.get_wholesaler_product_by_product_id(product_id=product_id)

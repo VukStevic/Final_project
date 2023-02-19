@@ -7,7 +7,7 @@ class PaymentSchema(BaseModel):
     id: UUID4
     payment_amount: float
     order_id: str
-    order: OrderSchema
+    # order: OrderSchema
 
     class Config:
         orm_mode = True

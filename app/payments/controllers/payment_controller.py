@@ -52,3 +52,10 @@ class PaymentController:
             return Response(content=f'Payment with order id: "{order_id}" successfully deleted.')
         except Exception as e:
             raise HTTPException(status_code=400, detail=str(e))
+
+    @staticmethod
+    def update_payment_amount(order_id: str):
+        try:
+            return PaymentServices.update_payment_amount(order_id)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))

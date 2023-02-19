@@ -5,3 +5,8 @@ on *.* TO 'b2bmarket'@'localhost' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 
 CREATE DATABASE IF NOT EXISTS online_b2b_marketplace_1;
+
+INSERT INTO payments(id,payment_amount,order_id) VALUES
+("03469c27-fc4d-4ddf-b332-9c219d3fb107",50000,"8bc1656f-264f-4872-9a95-8ec7835a9a41"),
+("64a97d61-9531-433c-a86c-6f97dea4b30b",125000,"8bc1656f-264f-4872-9a95-8ec7835a9a41"),
+("950bd17e-dbf0-4808-9fb4-ce8b46c0941f",125000,"8bc1656f-264f-4872-9a95-8ec7835a9a41");

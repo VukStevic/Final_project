@@ -9,8 +9,8 @@ class OrderProductSchema(BaseModel):
     wholesaler_product_id: str
     quantity: float
     price: float
-    order: OrderSchema
-    product: ProductSchema
+    # order: OrderSchema
+    # product: ProductSchema
 
     class Config:
         orm_mode = True

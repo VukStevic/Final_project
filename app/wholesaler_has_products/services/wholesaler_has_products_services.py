@@ -36,6 +36,15 @@ class WholesalerHasProductsServices:
             raise e
 
     @staticmethod
+    def get_wholesaler_product_by_id(id: str):
+        try:
+            with SessionLocal() as db:
+                wholesaler_has_products_repository = WholesalerHasProductsRepository(db)
+                return wholesaler_has_products_repository.get_wholesaler_product_by_id(id)
+        except Exception as e:
+            raise e
+
+    @staticmethod
     def delete_wholesaler_product_by_wholesaler_id(wholesaler_id: str):
         try:
             with SessionLocal() as db:

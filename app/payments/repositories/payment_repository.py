@@ -1,5 +1,7 @@
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
+
+from app.order_product.services import OrderProductServices
 from app.payments.models import Payment
 
 
@@ -45,5 +47,20 @@ class PaymentRepository:
             self.db.delete(payment)
             self.db.commit()
             return True
+        except Exception as e:
+            raise e
+
+    def update_payment_amount(self, order_id: str):
+        try:
+            payment = self.db.query(Payment).filter(Payment.order_id == order_id).first()
+            order_products = OrderProductServices.get_order_product_by_order_id(order_id)
+            payment_amount = 0
+            for product in order_products:
+                payment_amount += product.price * product.quantity
+            payment.payment_amount = payment_amount
+            self.db.add(payment)
+            self.db.commit()
+            self.db.refresh(payment)
+            return payment
         except Exception as e:
             raise e

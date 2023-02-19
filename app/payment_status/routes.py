@@ -19,7 +19,7 @@ def get_all_payment_statuses():
 
 
 @payment_status_router.get("/get-payment_status-by-id", response_model=PaymentStatusSchema)
-def get_payment_status_by_status_code(id: str):
+def get_payment_status_by_id(id: str):
     return PaymentStatusController.get_payment_status_by_id(id=id)
 
 

@@ -8,9 +8,9 @@ class OrderProductRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create_order_product(self, order_id: str, product_id: str, quantity: float):
+    def create_order_product(self, order_id: str, wholesaler_product_id: str, quantity: float):
         try:
-            order_product = OrderProduct(order_id=order_id, product_id=product_id,
+            order_product = OrderProduct(order_id=order_id, wholesaler_product_id=wholesaler_product_id,
                                          quantity=quantity)
             self.db.add(order_product)
             self.db.commit()
@@ -22,6 +22,10 @@ class OrderProductRepository:
     def get_all_order_products(self):
         order_products = self.db.query(OrderProduct).all()
         return order_products
+
+    def get_order_product_by_id(self, id: str):
+        order_product = self.db.query(OrderProduct).filter(OrderProduct.id == id).first()
+        return order_product
 
     def get_order_product_by_order_id(self, order_id: str):
         order_product = self.db.query(OrderProduct).filter(OrderProduct.order_id == order_id).all()

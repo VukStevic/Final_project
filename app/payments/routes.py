@@ -34,3 +34,8 @@ def delete_payment_by_id(payment_id: str):
 @payment_router.delete("/delete-payment-by-order-id")
 def delete_payment_by_order_id(order_id: str):
     return PaymentController.delete_payment_by_order_id(order_id=order_id)
+
+
+@payment_router.put("/update-payment-amount", response_model=PaymentSchema)
+def update_payment_amount(order_id: str):
+    return PaymentController.update_payment_amount(order_id=order_id)

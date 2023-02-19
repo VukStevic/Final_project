@@ -33,6 +33,15 @@ class WholesalerHasProductsController:
                                                         f"wholesaler_id: {wholesaler_id} does not exist.")
 
     @staticmethod
+    def get_wholesaler_product_by_id(id: str):
+        wholesaler_has_products = WholesalerHasProductsServices.get_wholesaler_product_by_id(id)
+        if wholesaler_has_products:
+            return wholesaler_has_products
+        else:
+            raise HTTPException(status_code=400, detail=f"Wholesaler product with provided "
+                                                        f"id: {id} does not exist.")
+
+    @staticmethod
     def get_wholesaler_product_by_product_id(product_id: str):
         wholesaler_has_products = WholesalerHasProductsServices.get_wholesaler_product_by_product_id(product_id)
         if wholesaler_has_products:

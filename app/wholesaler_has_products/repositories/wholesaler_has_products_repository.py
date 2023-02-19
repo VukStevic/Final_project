@@ -28,6 +28,11 @@ class WholesalerHasProductsRepository:
                                                                               wholesaler_id).first()
         return wholesaler_has_products
 
+    def get_wholesaler_product_by_id(self, id: str):
+        wholesaler_has_products = self.db.query(WholesalerHasProducts).filter(WholesalerHasProducts.id ==
+                                                                              id).first()
+        return wholesaler_has_products
+
     def get_wholesaler_product_by_product_id(self, product_id: str):
         wholesaler_has_products = self.db.query(WholesalerHasProducts).filter(WholesalerHasProducts.product_id ==
                                                                               product_id).first()

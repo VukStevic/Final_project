@@ -48,3 +48,12 @@ class PaymentServices:
                 return payment_repository.delete_payment_by_order_id(order_id)
         except Exception as e:
             raise e
+
+    @staticmethod
+    def update_payment_amount(order_id: str):
+        with SessionLocal() as db:
+            try:
+                payment_repository = PaymentRepository(db)
+                return payment_repository.update_payment_amount(order_id)
+            except Exception as e:
+                raise e
