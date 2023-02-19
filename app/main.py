@@ -1,6 +1,8 @@
 import uvicorn
 from fastapi import FastAPI
 from starlette.responses import RedirectResponse
+
+from app.analytics.routes import analytics_router
 from app.db.database import engine, Base
 from app.business_types.routes import business_type_router
 from app.order_product.routes import order_product_router
@@ -32,6 +34,7 @@ def init_app():
     app.include_router(product_category_router)
     app.include_router(payment_router)
     app.include_router(payment_status_router)
+    app.include_router(analytics_router)
     return app
 
 

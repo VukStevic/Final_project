@@ -34,3 +34,13 @@ class OrderSchemaUpdate(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class OrderSchemaAnalytics(BaseModel):
+    type: str
+    order_date: date
+    wholesaler_id: UUID4
+    retailer_id: UUID4
+
+    class Config:
+        orm_mode = True

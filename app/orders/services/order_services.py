@@ -26,6 +26,30 @@ class OrderServices:
             return order_repository.get_order_by_id(order_id)
 
     @staticmethod
+    def get_order_by_wholesaler_id(wholesaler_id: str):
+        with SessionLocal() as db:
+            order_repository = OrderRepository(db)
+            return order_repository.get_order_by_wholesaler_id(wholesaler_id)
+
+    @staticmethod
+    def get_order_by_retailer_id(retailer_id: str):
+        with SessionLocal() as db:
+            order_repository = OrderRepository(db)
+            return order_repository.get_order_by_retailer_id(retailer_id)
+
+    @staticmethod
+    def get_order_by_wholesaler_and_date_range(wholesaler_id:str, starting_date: str, ending_date: str):
+        with SessionLocal() as db:
+            order_repository = OrderRepository(db)
+            return order_repository.get_order_by_wholesaler_and_date_range(wholesaler_id, starting_date, ending_date)
+
+    @staticmethod
+    def get_order_by_retailer_and_date_range(retailer_id: str, starting_date: str, ending_date: str):
+        with SessionLocal() as db:
+            order_repository = OrderRepository(db)
+            return order_repository.get_order_by_retailer_and_date_range(retailer_id, starting_date, ending_date)
+
+    @staticmethod
     def delete_order_by_id(order_id: str):
         try:
             with SessionLocal() as db:

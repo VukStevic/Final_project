@@ -1,6 +1,7 @@
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from app.order_product.models.order_product import OrderProduct
+from app.orders.services import OrderServices
 
 
 class OrderProductRepository:
@@ -23,6 +24,19 @@ class OrderProductRepository:
         order_products = self.db.query(OrderProduct).all()
         return order_products
 
+    def get_average_product_price(self, wholesaler_product_id):
+        try:
+            sum = 0
+            count = 0
+            order_products = self.get_order_product_by_wholesaler_product_id(wholesaler_product_id)
+            for order_product in order_products:
+                sum += order_product.price * order_product.quantity
+                count += order_product.quantity
+            average_price = sum / count
+            return average_price
+        except ZeroDivisionError as e:
+            raise e
+
     def get_order_product_by_id(self, id: str):
         order_product = self.db.query(OrderProduct).filter(OrderProduct.id == id).first()
         return order_product
@@ -31,9 +45,39 @@ class OrderProductRepository:
         order_product = self.db.query(OrderProduct).filter(OrderProduct.order_id == order_id).all()
         return order_product
 
-    def get_order_product_by_product_id(self, product_id: str):
-        order_product = self.db.query(OrderProduct).filter(OrderProduct.product_id == product_id).all()
+    def get_order_product_by_wholesaler_product_id(self, wholesaler_product_id: str):
+        order_product = self.db.query(OrderProduct).\
+            filter(OrderProduct.wholesaler_product_id == wholesaler_product_id).all()
         return order_product
+
+    def get_average_product_count_per_order(self):
+        try:
+            order_products = self.db.query(OrderProduct).all()
+            product_count = 0
+            for order_product in order_products:
+                product_count += order_product.quantity
+            order_count = len(OrderServices.get_all_orders())
+            count_per_order = product_count / order_count
+            return count_per_order
+        except ZeroDivisionError as e:
+            raise e
+        except Exception as e:
+            raise e
+
+    def get_total_wholesaler_revenue(self, wholesaler_id: str):
+        try:
+            revenue = 0
+            orders = OrderServices.get_order_by_wholesaler_id(wholesaler_id)
+            order_products = self.db.query(OrderProduct).all()
+            for order in orders:
+                for order_product in order_products:
+                    if order.id == order_product.order_id:
+                        revenue += order_product.quantity * order_product.price
+            return revenue
+        except ZeroDivisionError as e:
+            raise e
+        except Exception as e:
+            raise e
 
     def delete_order_product_by_order_id(self, order_id: str):
         try:
@@ -44,9 +88,10 @@ class OrderProductRepository:
         except Exception as e:
             raise e
 
-    def delete_order_product_by_product_id(self, product_id: str):
+    def delete_order_product_by_wholesaler_product_id(self, wholesaler_product_id: str):
         try:
-            order_product = self.db.query(OrderProduct).filter(OrderProduct.product_id == product_id).first()
+            order_product = self.db.query(OrderProduct).\
+                filter(OrderProduct.wholesaler_product_id == wholesaler_product_id).first()
             self.db.delete(order_product)
             self.db.commit()
             return True

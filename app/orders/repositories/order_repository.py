@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from app.orders.models import Order
@@ -24,6 +26,28 @@ class OrderRepository:
 
     def get_order_by_id(self, order_id: str):
         order = self.db.query(Order).filter(Order.id == order_id).first()
+        return order
+
+    def get_order_by_wholesaler_id(self, wholesaler_id: str):
+        order = self.db.query(Order).filter(Order.wholesaler_id == wholesaler_id).all()
+        return order
+
+    def get_order_by_retailer_id(self, retailer_id: str):
+        order = self.db.query(Order).filter(Order.retailer_id == retailer_id).all()
+        return order
+
+    def get_order_by_wholesaler_and_date_range(self, wholesaler_id:str, starting_date: str, ending_date: str):
+        start = datetime.strptime(starting_date, "%d-%m-%Y")
+        end = datetime.strptime(ending_date, "%d-%m-%Y")
+        order = self.db.query(Order).filter(Order.wholesaler_id == wholesaler_id,
+                                            Order.order_date >= start, Order.order_date <= end).all()
+        return order
+
+    def get_order_by_retailer_and_date_range(self, retailer_id:str, starting_date: str, ending_date: str):
+        start = datetime.strptime(starting_date, "%d-%m-%Y")
+        end = datetime.strptime(ending_date, "%d-%m-%Y")
+        order = self.db.query(Order).filter(Order.retailer_id == retailer_id,
+                                            Order.order_date >= start, Order.order_date <= end).all()
         return order
 
     def delete_order_by_id(self, order_id: str):

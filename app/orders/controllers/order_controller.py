@@ -29,6 +29,40 @@ class OrderController:
                                                         f"id: {order_id} does not exist.")
 
     @staticmethod
+    def get_order_by_wholesaler_id(wholesaler_id: str):
+        order = OrderServices.get_order_by_wholesaler_id(wholesaler_id)
+        if order:
+            return order
+        else:
+            raise HTTPException(status_code=400, detail=f"Order with provided "
+                                                        f"id: {wholesaler_id} does not exist.")
+
+    @staticmethod
+    def get_order_by_retailer_id(retailer_id: str):
+        order = OrderServices.get_order_by_retailer_id(retailer_id)
+        if order:
+            return order
+        else:
+            raise HTTPException(status_code=400, detail=f"Order with provided "
+                                                        f"id: {retailer_id} does not exist.")
+
+    @staticmethod
+    def get_order_by_wholesaler_and_date_range(wholesaler_id:str, starting_date: str, ending_date: str):
+        order = OrderServices.get_order_by_wholesaler_and_date_range(wholesaler_id, starting_date, ending_date)
+        if order:
+            return order
+        else:
+            raise HTTPException(status_code=400, detail=f"Order with provided parameters does not exist.")
+
+    @staticmethod
+    def get_order_by_retailer_and_date_range(retailer_id: str, starting_date: str, ending_date: str):
+        order = OrderServices.get_order_by_retailer_and_date_range(retailer_id, starting_date, ending_date)
+        if order:
+            return order
+        else:
+            raise HTTPException(status_code=400, detail=f"Order with provided parameters does not exist.")
+
+    @staticmethod
     def delete_order_by_id(order_id: str):
         try:
             OrderServices.delete_order_by_id(order_id)

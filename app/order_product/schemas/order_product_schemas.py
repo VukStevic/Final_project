@@ -24,3 +24,12 @@ class OrderProductSchemaIn(BaseModel):
     class Config:
         orm_mode = True
 
+
+class AveragePriceSchema(BaseModel):
+    average_price: str
+
+    class Config:
+        orm_mode = True
+
+
+

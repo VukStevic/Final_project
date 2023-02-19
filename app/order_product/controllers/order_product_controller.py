@@ -22,6 +22,13 @@ class OrderProductController:
         return order_products
 
     @staticmethod
+    def get_average_product_price(wholesaler_product_id):
+        try:
+            return OrderProductServices.get_average_product_price(wholesaler_product_id)
+        except ZeroDivisionError as e:
+            raise HTTPException(status_code=400, detail=str(e))
+
+    @staticmethod
     def get_order_product_by_order_id(order_id: str):
         order_product = OrderProductServices.get_order_product_by_order_id(order_id)
         if order_product:
@@ -31,13 +38,13 @@ class OrderProductController:
                                                         f"id: {order_id} does not exist.")
 
     @staticmethod
-    def get_order_product_by_product_id(product_id: str):
-        order_product = OrderProductServices.get_order_product_by_product_id(product_id)
+    def get_order_product_by_wholesaler_product_id(wholesaler_product_id: str):
+        order_product = OrderProductServices.get_order_product_by_wholesaler_product_id(wholesaler_product_id)
         if order_product:
             return order_product
         else:
             raise HTTPException(status_code=400, detail=f"Order product with provided "
-                                                        f"id: {product_id} does not exist.")
+                                                        f"id: {wholesaler_product_id} does not exist.")
 
     @staticmethod
     def get_order_product_by_id(id: str):
@@ -49,6 +56,20 @@ class OrderProductController:
                                                         f"id: {id} does not exist.")
 
     @staticmethod
+    def get_average_product_count_per_order():
+        try:
+            return OrderProductServices.get_average_product_count_per_order()
+        except ZeroDivisionError as e:
+            raise HTTPException(status_code=400, detail=str(e))
+
+    @staticmethod
+    def get_total_wholesaler_revenue(wholesaler_id: str):
+        try:
+            return OrderProductServices.get_total_wholesaler_revenue(wholesaler_id)
+        except ZeroDivisionError as e:
+            raise HTTPException(status_code=400, detail=str(e))
+
+    @staticmethod
     def delete_order_product_by_order_id(order_id: str):
         try:
             OrderProductServices.delete_order_product_by_order_id(order_id)
@@ -57,9 +78,9 @@ class OrderProductController:
             raise HTTPException(status_code=400, detail=str(e))
 
     @staticmethod
-    def delete_order_product_by_product_id(product_id: str):
+    def delete_order_product_by_wholesaler_product_id(wholesaler_product_id: str):
         try:
-            OrderProductServices.delete_order_product_by_product_id(product_id)
-            return Response(content=f'Order product with id: "{product_id}" successfully deleted.')
+            OrderProductServices.delete_order_product_by_wholesaler_product_id(wholesaler_product_id)
+            return Response(content=f'Order product with id: "{wholesaler_product_id}" successfully deleted.')
         except Exception as e:
             raise HTTPException(status_code=400, detail=str(e))

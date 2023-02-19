@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.orders.schemas import OrderSchema, OrderSchemaIn
+from app.orders.schemas import OrderSchema, OrderSchemaIn, OrderSchemaAnalytics
 from app.orders.controllers import OrderController
 
 
@@ -20,6 +20,16 @@ def get_all_orders():
 @order_router.get("/get-order-by-id", response_model=OrderSchema)
 def get_order_by_id(order_id: str):
     return OrderController.get_order_by_id(order_id=order_id)
+
+
+@order_router.get("/get-order-by-wholesaler-id", response_model=list[OrderSchemaAnalytics])
+def get_order_by_wholesaler_id(wholesaler_id: str):
+    return OrderController.get_order_by_wholesaler_id(wholesaler_id=wholesaler_id)
+
+
+@order_router.get("/get-order-by-retailer-id", response_model=list[OrderSchemaAnalytics])
+def get_order_by_retailer_id(retailer_id: str):
+    return OrderController.get_order_by_retailer_id(retailer_id=retailer_id)
 
 
 @order_router.put("/update-order-type", response_model=OrderSchema)
