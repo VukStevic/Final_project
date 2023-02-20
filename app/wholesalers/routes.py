@@ -1,4 +1,5 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from app.users.controllers import JWTBearer
 from app.wholesalers.controllers import WholesalerController
 from app.wholesalers.schemas import *
 
@@ -23,7 +24,7 @@ def get_wholesaler_by_id(wholesaler_id: str):
     return WholesalerController.get_wholesaler_by_id(wholesaler_id)
 
 
-@wholesaler_router.delete("/")
+@wholesaler_router.delete("/", dependencies=[Depends(JWTBearer("super_user"))])
 def delete_wholesaler_by_id(wholesaler_id: str):
     return WholesalerController.delete_wholesaler_by_id(wholesaler_id)
 

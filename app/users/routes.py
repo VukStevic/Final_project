@@ -37,7 +37,7 @@ def get_user_by_username(username: str):
     return UserController.get_user_by_username(username)
 
 
-@user_router.get("/get-all-users", response_model=list[UserSchema], dependencies=[Depends(JWTBearer("super_user"))])
+@user_router.get("/get-all-users", response_model=list[UserSchema])
 def get_all_users():
     return UserController.get_all_users()
 
@@ -47,6 +47,6 @@ def delete_user_by_id(user_id: str):
     return UserController.delete_user_by_id(user_id)
 
 
-@user_router.put("/update/is_active", response_model=UserSchema)
+@user_router.put("/update/is_active", response_model=UserSchema, dependencies=[Depends(JWTBearer("super_user"))])
 def update_user(user_id: str, is_active: bool):
     return UserController.update_user_is_active(user_id, is_active)

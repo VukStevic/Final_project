@@ -27,6 +27,10 @@ class OrderStatusRepository:
         order_status = self.db.query(OrderStatus).filter(OrderStatus.id == id).first()
         return order_status
 
+    def get_order_status_by_order_id(self, order_id: str):
+        order_status = self.db.query(OrderStatus).filter(OrderStatus.order_id == order_id).first()
+        return order_status
+
     def get_order_status_by_date_and_time(self, date_and_time: str):
         order_status = self.db.query(OrderStatus).filter(OrderStatus.date_and_time == date_and_time).first()
         return order_status

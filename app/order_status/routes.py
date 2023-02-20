@@ -1,7 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from app.order_status.schemas import OrderStatusSchema, OrderStatusSchemaIn
 from app.order_status.controllers import OrderStatusController
-
+from app.users.controllers import JWTBearer
 
 order_status_router = APIRouter(prefix="/api/order-status", tags=["Order status"])
 
@@ -23,6 +23,11 @@ def get_order_status_by_id(id: str):
     return OrderStatusController.get_order_status_by_id(id=id)
 
 
+@order_status_router.get("/get-order_status-by-order-id", response_model=OrderStatusSchema)
+def get_order_status_by_order_id(order_id: str):
+    return OrderStatusController.get_order_status_by_order_id(order_id=order_id)
+
+
 @order_status_router.get("/get-order_status-by-date-and-time", response_model=OrderStatusSchema)
 def get_order_status_by_date_and_time(date_and_time: str):
     return OrderStatusController.get_order_status_by_date_and_time(date_and_time=date_and_time)
@@ -38,11 +43,11 @@ def update_order_status_description(id: str, description: str):
     return OrderStatusController.update_order_status_description(id=id, description=description)
 
 
-@order_status_router.delete("/delete-order-status-by-id")
+@order_status_router.delete("/delete-order-status-by-id", dependencies=[Depends(JWTBearer("super_user"))])
 def delete_order_status_by_id(id: str):
     return OrderStatusController.delete_order_status_by_id(id=id)
 
 
-@order_status_router.delete("/delete-order-status-by-date-and-time")
+@order_status_router.delete("/delete-order-status-by-date-and-time", dependencies=[Depends(JWTBearer("super_user"))])
 def delete_order_status_by_date_and_time(date_and_time: str):
     return OrderStatusController.delete_order_status_by_date_and_time(date_and_time=date_and_time)

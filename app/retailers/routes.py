@@ -1,7 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from app.retailers.controllers import RetailerController
 from app.retailers.schemas import *
-
+from app.users.controllers import JWTBearer
 
 retailer_router = APIRouter(prefix="/api/retailers", tags=["Retailers"])
 
@@ -22,7 +22,7 @@ def get_retailer_by_id(retailer_id: str):
     return RetailerController.get_retailer_by_id(retailer_id)
 
 
-@retailer_router.delete("/")
+@retailer_router.delete("/", dependencies=[Depends(JWTBearer("super_user"))])
 def delete_retailer_by_id(retailer_id: str):
     return RetailerController.delete_retailer_by_id(retailer_id)
 

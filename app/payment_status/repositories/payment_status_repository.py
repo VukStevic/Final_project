@@ -28,6 +28,10 @@ class PaymentStatusRepository:
         payment_status = self.db.query(PaymentStatus).filter(PaymentStatus.id == id).first()
         return payment_status
 
+    def get_payment_status_by_payment_id(self, payment_id: str):
+        payment_status = self.db.query(PaymentStatus).filter(PaymentStatus.payment_id == payment_id).first()
+        return payment_status
+
     def get_payment_status_by_date_and_time(self, date_and_time: str):
         payment_status = self.db.query(PaymentStatus).filter(PaymentStatus.date_and_time == date_and_time).first()
         return payment_status

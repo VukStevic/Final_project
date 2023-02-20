@@ -1,7 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from app.payments.schemas import PaymentSchema
 from app.payments.controllers import PaymentController
-
+from app.users.controllers import JWTBearer
 
 payment_router = APIRouter(prefix="/api/payments", tags=["Payments"])
 
@@ -26,12 +26,12 @@ def get_payment_by_order_id(order_id: str):
     return PaymentController.get_payment_by_order_id(order_id=order_id)
 
 
-@payment_router.delete("/delete-payment-by-id")
+@payment_router.delete("/delete-payment-by-id", dependencies=[Depends(JWTBearer("super_user"))])
 def delete_payment_by_id(payment_id: str):
     return PaymentController.delete_payment_by_id(payment_id=payment_id)
 
 
-@payment_router.delete("/delete-payment-by-order-id")
+@payment_router.delete("/delete-payment-by-order-id", dependencies=[Depends(JWTBearer("super_user"))])
 def delete_payment_by_order_id(order_id: str):
     return PaymentController.delete_payment_by_order_id(order_id=order_id)
 

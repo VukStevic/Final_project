@@ -1,7 +1,7 @@
-from fastapi import APIRouter
-from app.order_product.schemas import OrderProductSchema, OrderProductSchemaIn, AveragePriceSchema
+from fastapi import APIRouter, Depends
+from app.order_product.schemas import OrderProductSchema, OrderProductSchemaIn
 from app.order_product.controllers import OrderProductController
-
+from app.users.controllers import JWTBearer
 
 order_product_router = APIRouter(prefix="/api/order-product", tags=["Order products"])
 
@@ -34,12 +34,13 @@ def get_order_product_by_id(id: str):
     return OrderProductController.get_order_product_by_id(id=id)
 
 
-@order_product_router.delete("/delete-order-product-by-order-id")
+@order_product_router.delete("/delete-order-product-by-order-id", dependencies=[Depends(JWTBearer("super_user"))])
 def delete_order_product_by_order_id(order_id: str):
     return OrderProductController.delete_order_product_by_order_id(order_id=order_id)
 
 
-@order_product_router.delete("/delete-order-product-by-wholesaler-product-id")
+@order_product_router.delete("/delete-order-product-by-wholesaler-product-id",
+                             dependencies=[Depends(JWTBearer("super_user"))])
 def delete_order_product_by_wholesaler_product_id(wholesaler_product_id: str):
     return OrderProductController.get_order_product_by_wholesaler_product_id(
         wholesaler_product_id=wholesaler_product_id)

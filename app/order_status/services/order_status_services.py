@@ -26,6 +26,12 @@ class OrderStatusServices:
             return order_status_repository.get_order_status_by_id(id)
 
     @staticmethod
+    def get_order_status_by_order_id(order_id: str):
+        with SessionLocal() as db:
+            order_status_repository = OrderStatusRepository(db)
+            return order_status_repository.get_order_status_by_order_id(order_id)
+
+    @staticmethod
     def get_order_status_by_date_and_time(date_and_time: str):
         with SessionLocal() as db:
             order_status_repository = OrderStatusRepository(db)

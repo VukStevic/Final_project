@@ -1,7 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from app.payment_status.schemas import PaymentStatusSchema, PaymentStatusSchemaIn
 from app.payment_status.controllers import PaymentStatusController
-
+from app.users.controllers import JWTBearer
 
 payment_status_router = APIRouter(prefix="/api/payment-status", tags=["Payment status"])
 
@@ -23,6 +23,11 @@ def get_payment_status_by_id(id: str):
     return PaymentStatusController.get_payment_status_by_id(id=id)
 
 
+@payment_status_router.get("/get-payment_status-by-payment-id", response_model=PaymentStatusSchema)
+def get_payment_status_by_payment_id(payment_id: str):
+    return PaymentStatusController.get_payment_status_by_payment_id(payment_id=payment_id)
+
+
 @payment_status_router.get("/get-payment_status-by-date-and-time", response_model=PaymentStatusSchema)
 def get_payment_status_by_date_and_time(date_and_time: str):
     return PaymentStatusController.get_payment_status_by_date_and_time(date_and_time=date_and_time)
@@ -39,11 +44,12 @@ def update_payment_status_description(id: str, status_description: str):
                                                                      status_description=status_description)
 
 
-@payment_status_router.delete("/delete-payment-status-by-id")
+@payment_status_router.delete("/delete-payment-status-by-id", dependencies=[Depends(JWTBearer("super_user"))])
 def delete_payment_status_by_id(id: str):
     return PaymentStatusController.delete_payment_status_by_id(id=id)
 
 
-@payment_status_router.delete("/delete-payment-status-by-date-and-time")
+@payment_status_router.delete("/delete-payment-status-by-date-and-time",
+                              dependencies=[Depends(JWTBearer("super_user"))])
 def delete_payment_status_by_date_and_time(date_and_time: str):
     return PaymentStatusController.delete_payment_status_by_date_and_time(date_and_time=date_and_time)

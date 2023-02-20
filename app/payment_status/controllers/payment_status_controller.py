@@ -29,6 +29,15 @@ class PaymentStatusController:
                                                         f"id: {id} does not exist.")
 
     @staticmethod
+    def get_payment_status_by_payment_id(payment_id: str):
+        payment_status = PaymentStatusServices.get_payment_status_by_payment_id(payment_id)
+        if payment_status:
+            return payment_status
+        else:
+            raise HTTPException(status_code=400, detail=f"Payment status with provided "
+                                                        f"id: {payment_id} does not exist.")
+
+    @staticmethod
     def get_payment_status_by_date_and_time(date_and_time: str):
         payment_status = PaymentStatusServices.get_payment_status_by_date_and_time(date_and_time)
         if payment_status:

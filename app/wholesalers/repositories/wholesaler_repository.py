@@ -41,7 +41,7 @@ class WholesalerRepository:
             self.db.add(wholesaler)
             self.db.commit()
             self.db.refresh(wholesaler)
-            return Wholesaler
+            return wholesaler
         except Exception as e:
             raise e
 
@@ -52,7 +52,7 @@ class WholesalerRepository:
             self.db.add(wholesaler)
             self.db.commit()
             self.db.refresh(wholesaler)
-            return Wholesaler
+            return wholesaler
         except Exception as e:
             raise e
 
@@ -63,6 +63,6 @@ class WholesalerRepository:
             self.db.add(wholesaler)
             self.db.commit()
             self.db.refresh(wholesaler)
-            return Wholesaler
+            return wholesaler
         except Exception as e:
             raise e

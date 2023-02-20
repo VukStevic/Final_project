@@ -26,6 +26,12 @@ class PaymentStatusServices:
             return payment_status_repository.get_payment_status_by_id(id)
 
     @staticmethod
+    def get_payment_status_by_payment_id(payment_id: str):
+        with SessionLocal() as db:
+            payment_status_repository = PaymentStatusRepository(db)
+            return payment_status_repository.get_payment_status_by_payment_id(payment_id)
+
+    @staticmethod
     def get_payment_status_by_date_and_time(date_and_time: str):
         with SessionLocal() as db:
             payment_status_repository = PaymentStatusRepository(db)

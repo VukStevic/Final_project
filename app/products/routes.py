@@ -1,7 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from app.products.schemas import ProductSchema, ProductSchemaIn
 from app.products.controllers import ProductController
-
+from app.users.controllers import JWTBearer
 
 product_router = APIRouter(prefix="/api/products", tags=["Products"])
 
@@ -33,6 +33,6 @@ def update_product_description(product_id: str, description: str):
     return ProductController.update_product_description(product_id=product_id, description=description)
 
 
-@product_router.delete("/delete-product-by-id")
+@product_router.delete("/delete-product-by-id", dependencies=[Depends(JWTBearer("super_user"))])
 def delete_product_by_id(product_id: str):
     return ProductController.delete_product_by_id(product_id=product_id)

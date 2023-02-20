@@ -1,4 +1,6 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+
+from app.users.controllers import JWTBearer
 from app.wholesaler_has_products.schemas import WholesalerHasProductsSchema, WholesalerHasProductsSchemaIn
 from app.wholesaler_has_products.controllers import WholesalerHasProductsController
 
@@ -53,11 +55,13 @@ def update_wholesaler_product_quantity_available(wholesaler_id: str, product_id:
         quantity_available=quantity_available)
 
 
-@wholesaler_has_products_router.delete("/delete-wholesaler-product-by-wholesaler-id")
+@wholesaler_has_products_router.delete("/delete-wholesaler-product-by-wholesaler-id",
+                                       dependencies=[Depends(JWTBearer("super_user"))])
 def delete_wholesaler_product_by_wholesaler_id(wholesaler_id: str):
     return WholesalerHasProductsController.delete_wholesaler_product_by_wholesaler_id(wholesaler_id=wholesaler_id)
 
 
-@wholesaler_has_products_router.delete("/delete-wholesaler-product-by-product-id")
+@wholesaler_has_products_router.delete("/delete-wholesaler-product-by-product-id",
+                                       dependencies=[Depends(JWTBearer("super_user"))])
 def delete_wholesaler_product_by_product_id(product_id: str):
     return WholesalerHasProductsController.delete_wholesaler_product_by_product_id(product_id=product_id)

@@ -29,6 +29,15 @@ class OrderStatusController:
                                                         f"id: {id} does not exist.")
 
     @staticmethod
+    def get_order_status_by_order_id(order_id: str):
+        order_status = OrderStatusServices.get_order_status_by_order_id(order_id)
+        if order_status:
+            return order_status
+        else:
+            raise HTTPException(status_code=400, detail=f"Order status with provided "
+                                                        f"id: {order_id} does not exist.")
+
+    @staticmethod
     def get_order_status_by_date_and_time(date_and_time: str):
         order_status = OrderStatusServices.get_order_status_by_date_and_time(date_and_time)
         if order_status:
