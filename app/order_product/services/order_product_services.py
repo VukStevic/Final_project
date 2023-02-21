@@ -1,6 +1,7 @@
 from app.order_product.models import OrderProduct
 from app.order_product.repositories import OrderProductRepository
 from app.db.database import SessionLocal
+from app.wholesaler_has_products.exceptions import WholesalerProductNotFoundException
 
 
 class OrderProductServices:
@@ -11,6 +12,8 @@ class OrderProductServices:
             try:
                 order_product_repository = OrderProductRepository(db)
                 return order_product_repository.create_order_product(order_id, wholesaler_product_id, quantity)
+            except WholesalerProductNotFoundException as e:
+                raise e
             except Exception as e:
                 raise e
 
@@ -31,9 +34,12 @@ class OrderProductServices:
 
     @staticmethod
     def get_order_product_by_order_id(order_id: str) -> list[OrderProduct]:
-        with SessionLocal() as db:
-            order_product_repository = OrderProductRepository(db)
-            return order_product_repository.get_order_product_by_order_id(order_id)
+        try:
+            with SessionLocal() as db:
+                order_product_repository = OrderProductRepository(db)
+                return order_product_repository.get_order_product_by_order_id(order_id)
+        except Exception as e:
+            raise e
 
     @staticmethod
     def get_order_product_by_wholesaler_product_id(wholesaler_product_id: str):

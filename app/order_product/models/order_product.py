@@ -2,7 +2,6 @@ from uuid import uuid4
 from app.db import Base
 from sqlalchemy import Column, String, ForeignKey, Float
 from sqlalchemy.orm import relationship
-from app.wholesaler_has_products.services import WholesalerHasProductsServices
 
 
 class OrderProduct(Base):
@@ -17,9 +16,8 @@ class OrderProduct(Base):
     product = relationship("WholesalerHasProducts", lazy="subquery")
 #
 
-    def __init__(self, order_id: str, wholesaler_product_id: str, quantity: float):
+    def __init__(self, order_id: str, wholesaler_product_id: str, quantity: float, price: float):
         self.order_id = order_id
         self.wholesaler_product_id = wholesaler_product_id
-        wholesaler_product = WholesalerHasProductsServices.get_wholesaler_product_by_id(wholesaler_product_id)
-        self.price = wholesaler_product.price
+        self.price = price
         self.quantity = quantity

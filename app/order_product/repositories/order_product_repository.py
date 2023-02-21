@@ -2,6 +2,8 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from app.order_product.models.order_product import OrderProduct
 from app.orders.services import OrderServices
+from app.wholesaler_has_products.exceptions import WholesalerProductNotFoundException
+from app.wholesaler_has_products.services import WholesalerHasProductsServices
 
 
 class OrderProductRepository:
@@ -11,14 +13,18 @@ class OrderProductRepository:
 
     def create_order_product(self, order_id: str, wholesaler_product_id: str, quantity: float):
         try:
+            wholesaler_product = WholesalerHasProductsServices.get_wholesaler_product_by_id(wholesaler_product_id)
+            price = wholesaler_product.price
             order_product = OrderProduct(order_id=order_id, wholesaler_product_id=wholesaler_product_id,
-                                         quantity=quantity)
+                                         quantity=quantity, price=price)
             self.db.add(order_product)
             self.db.commit()
             self.db.refresh(order_product)
             return order_product
         except IntegrityError as e:
             raise e
+        except Exception:
+            raise WholesalerProductNotFoundException(code=400, message="Wholesaler product with a given id not found.")
 
     def get_all_order_products(self):
         order_products = self.db.query(OrderProduct).all()
@@ -32,7 +38,7 @@ class OrderProductRepository:
             for order_product in order_products:
                 sum += order_product.price * order_product.quantity
                 count += order_product.quantity
-            average_price = sum / count
+            average_price = round(sum / count, 2)
             return average_price
         except ZeroDivisionError as e:
             raise e

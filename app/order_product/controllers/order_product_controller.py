@@ -2,6 +2,8 @@ from sqlalchemy.exc import IntegrityError
 from app.order_product.services import OrderProductServices
 from fastapi import HTTPException, Response
 
+from app.wholesaler_has_products.exceptions import WholesalerProductNotFoundException
+
 
 class OrderProductController:
     @staticmethod
@@ -9,6 +11,8 @@ class OrderProductController:
         try:
             order_product = OrderProductServices.create_order_product(order_id, wholesaler_product_id, quantity)
             return order_product
+        except WholesalerProductNotFoundException:
+            raise HTTPException(status_code=400, detail=f"Wholesaler product with a given id not found.")
         except IntegrityError:
             raise HTTPException(status_code=400, detail=f"Order product with provided "
                                                         f"order_id/wholesaler_product_id: "
@@ -34,7 +38,7 @@ class OrderProductController:
         if order_product:
             return order_product
         else:
-            raise HTTPException(status_code=400, detail=f"Order product with provided "
+            raise HTTPException(status_code=400, detail=f"Order product with provided order "
                                                         f"id: {order_id} does not exist.")
 
     @staticmethod

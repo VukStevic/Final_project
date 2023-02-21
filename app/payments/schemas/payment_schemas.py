@@ -25,3 +25,14 @@ class PaymentSchemaUpdate(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class PaymentBYWholesalerSchema(BaseModel):
+    id: UUID4
+    payment_amount: float
+    order_id: str
+    wholesaler_id: str
+    # order: OrderSchema
+
+    class Config:
+        orm_mode = True

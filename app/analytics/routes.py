@@ -1,21 +1,22 @@
 from fastapi import APIRouter
+from app.analytics.analytics_schemas import WholesalerRevenueSchema
 from app.order_product.controllers import OrderProductController
 from app.orders.controllers import OrderController
 from app.orders.schemas import OrderSchemaAnalytics
-
+from app.payments.controllers import PaymentController
 
 analytics_router = APIRouter(prefix="/api/analytics", tags=["Analytics"])
 
 
 @analytics_router.get("/get-order-by-wholesaler-and-date-range", response_model=list[OrderSchemaAnalytics])
-def get_order_by_wholesaler_and_date_range(wholesaler_id:str, starting_date: str, ending_date: str):
+def get_order_by_wholesaler_and_date_range(wholesaler_id: str, starting_date: str, ending_date: str):
     return OrderController.get_order_by_wholesaler_and_date_range(wholesaler_id=wholesaler_id,
                                                                   starting_date=starting_date,
                                                                   ending_date=ending_date)
 
 
 @analytics_router.get("/get-order-by-retailer-and-date-range", response_model=list[OrderSchemaAnalytics])
-def get_order_by_retailer_and_date_range(retailer_id:str, starting_date: str, ending_date: str):
+def get_order_by_retailer_and_date_range(retailer_id: str, starting_date: str, ending_date: str):
     return OrderController.get_order_by_retailer_and_date_range(retailer_id=retailer_id,
                                                                 starting_date=starting_date,
                                                                 ending_date=ending_date)
@@ -33,7 +34,11 @@ def get_average_product_count_per_order():
     return {"average product count per order": count_per_order}
 
 
-@analytics_router.get("/get-total-wholesaler-revenue")
+@analytics_router.get("/get-total-wholesaler-revenue", response_model=WholesalerRevenueSchema)
 def get_total_wholesaler_revenue(wholesaler_id: str):
     total_wholesaler_revenue = OrderProductController.get_total_wholesaler_revenue(wholesaler_id)
-    return {"wholesaler_id": wholesaler_id, "total wholesaler revenue": total_wholesaler_revenue}
+    payments = PaymentController.get_payment_by_wholesaler_id(wholesaler_id)
+    return WholesalerRevenueSchema(wholesaler_id=wholesaler_id,
+                                   total_wholesaler_revenue=total_wholesaler_revenue,
+                                   payments=payments)
+

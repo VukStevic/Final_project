@@ -1,4 +1,7 @@
 from sqlalchemy.exc import IntegrityError
+
+from app.order_product.exceptions import OrderProductNotFoundException
+from app.orders.exceptions import OrderNotFoundException
 from app.payments.services import PaymentServices
 from fastapi import HTTPException, Response
 
@@ -9,8 +12,10 @@ class PaymentController:
         try:
             payment = PaymentServices.create_payment(order_id)
             return payment
-        except IntegrityError as e:
-            raise HTTPException(status_code=400, detail=str(e))
+        except OrderNotFoundException:
+            raise HTTPException(status_code=400, detail=f"Order with provided order id: {order_id} not found.")
+        except IntegrityError:
+            raise HTTPException(status_code=400, detail=f"Payment with provided order id: {order_id} already exists.")
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
 
@@ -38,6 +43,15 @@ class PaymentController:
                                                         f"id: {order_id} does not exist.")
 
     @staticmethod
+    def get_payment_by_wholesaler_id(wholesaler_id: str):
+        try:
+            payment = PaymentServices.get_payment_by_wholesaler_id(wholesaler_id)
+            if payment:
+                return payment
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
+
+    @staticmethod
     def delete_payment_by_id(payment_id: str):
         try:
             PaymentServices.delete_payment_by_id(payment_id)
@@ -57,5 +71,9 @@ class PaymentController:
     def update_payment_amount(order_id: str):
         try:
             return PaymentServices.update_payment_amount(order_id)
+        except OrderNotFoundException:
+            raise HTTPException(status_code=400, detail=f"Order with provided order id: {order_id} not found.")
+        except IntegrityError:
+            raise HTTPException(status_code=400, detail=f"Payment with provided order id: {order_id} already exists.")
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
