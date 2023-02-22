@@ -1,5 +1,7 @@
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
+
+from app.business_types.exceptions.business_type_exceptions import BusinessTypeNotFound
 from app.business_types.models import BusinessType
 
 
@@ -24,6 +26,9 @@ class BusinessTypeRepository:
 
     def get_business_type_by_id(self, business_type_id: str):
         business_type = self.db.query(BusinessType).filter(BusinessType.id == business_type_id).first()
+        if not business_type:
+            raise BusinessTypeNotFound(code=400, message=f"Business type with provided id {business_type_id} does not "
+                                                         f"exist.")
         return business_type
 
     def delete_business_type_by_id(self, business_type_id: str):

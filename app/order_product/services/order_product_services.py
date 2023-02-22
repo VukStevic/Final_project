@@ -1,3 +1,4 @@
+from app.order_product.exceptions import OrderProductNotFoundException
 from app.order_product.models import OrderProduct
 from app.order_product.repositories import OrderProductRepository
 from app.db.database import SessionLocal
@@ -38,6 +39,8 @@ class OrderProductServices:
             with SessionLocal() as db:
                 order_product_repository = OrderProductRepository(db)
                 return order_product_repository.get_order_product_by_order_id(order_id)
+        except OrderProductNotFoundException as e:
+            raise e
         except Exception as e:
             raise e
 
@@ -47,14 +50,21 @@ class OrderProductServices:
             with SessionLocal() as db:
                 order_product_repository = OrderProductRepository(db)
                 return order_product_repository.get_order_product_by_wholesaler_product_id(wholesaler_product_id)
+        except OrderProductNotFoundException as e:
+            raise e
         except Exception as e:
             raise e
 
     @staticmethod
     def get_order_product_by_id(id: str) -> OrderProduct:
-        with SessionLocal() as db:
-            order_product_repository = OrderProductRepository(db)
-            return order_product_repository.get_order_product_by_id(id)
+        try:
+            with SessionLocal() as db:
+                order_product_repository = OrderProductRepository(db)
+                return order_product_repository.get_order_product_by_id(id)
+        except OrderProductNotFoundException as e:
+            raise e
+        except Exception as e:
+            raise e
 
     @staticmethod
     def get_average_product_count_per_order():
@@ -89,6 +99,8 @@ class OrderProductServices:
             with SessionLocal() as db:
                 order_product_repository = OrderProductRepository(db)
                 return order_product_repository.update_order_product(id, quantity)
+        except OrderProductNotFoundException as e:
+            raise e
         except Exception as e:
             raise e
 

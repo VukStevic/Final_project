@@ -1,3 +1,4 @@
+from app.products.exceptions.product_exceptions import ProductNotFound
 from app.products.repositories import ProductRepository
 from app.db.database import SessionLocal
 
@@ -46,5 +47,7 @@ class ProductServices:
             try:
                 product_repository = ProductRepository(db)
                 return product_repository.update_product(product_id, name, description)
+            except ProductNotFound as e:
+                raise e
             except Exception as e:
                 raise e

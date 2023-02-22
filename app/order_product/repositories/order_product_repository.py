@@ -1,5 +1,7 @@
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
+
+from app.order_product.exceptions import OrderProductNotFoundException
 from app.order_product.models.order_product import OrderProduct
 from app.orders.services import OrderServices
 from app.wholesaler_has_products.exceptions import WholesalerProductNotFoundException
@@ -45,15 +47,23 @@ class OrderProductRepository:
 
     def get_order_product_by_id(self, id: str):
         order_product = self.db.query(OrderProduct).filter(OrderProduct.id == id).first()
+        if not order_product:
+            raise OrderProductNotFoundException(code=400, message=f"Order product with provided id: {id} not found.")
         return order_product
 
     def get_order_product_by_order_id(self, order_id: str):
         order_product = self.db.query(OrderProduct).filter(OrderProduct.order_id == order_id).all()
+        if not order_product:
+            raise OrderProductNotFoundException(code=400, message=f"Order product with provided order id: {order_id} "
+                                                                  f"not found.")
         return order_product
 
     def get_order_product_by_wholesaler_product_id(self, wholesaler_product_id: str):
         order_product = self.db.query(OrderProduct).\
             filter(OrderProduct.wholesaler_product_id == wholesaler_product_id).all()
+        if not order_product:
+            raise OrderProductNotFoundException(code=400, message=f"Order product with provided wholesaler product id: "
+                                                                  f"{wholesaler_product_id} not found.")
         return order_product
 
     def get_average_product_count_per_order(self):
@@ -86,16 +96,15 @@ class OrderProductRepository:
             raise e
 
     def update_order_product(self, id: str, quantity: float):
-        try:
-            order_product = self.db.query(OrderProduct).filter(OrderProduct.id == id).first()
-            if quantity is not None:
-                order_product.quantity = quantity
-            self.db.add(order_product)
-            self.db.commit()
-            self.db.refresh(order_product)
-            return order_product
-        except Exception as e:
-            raise e
+        order_product = self.db.query(OrderProduct).filter(OrderProduct.id == id).first()
+        if not order_product:
+            raise OrderProductNotFoundException(code=400, message=f"Order product with provided id {id} not found.")
+        if quantity is not None:
+            order_product.quantity = quantity
+        self.db.add(order_product)
+        self.db.commit()
+        self.db.refresh(order_product)
+        return order_product
 
     def delete_order_product_by_order_id(self, order_id: str):
         try:

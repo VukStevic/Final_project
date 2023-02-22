@@ -1,4 +1,6 @@
 from sqlalchemy.exc import IntegrityError
+
+from app.wholesaler_has_products.exceptions import WholesalerProductNotFoundException
 from app.wholesaler_has_products.services import WholesalerHasProductsServices
 from fastapi import HTTPException, Response
 
@@ -10,11 +12,10 @@ class WholesalerHasProductsController:
             wholesaler_has_products = WholesalerHasProductsServices.create_wholesaler_product(wholesaler_id, product_id,
                                                                                               price, quantity_available)
             return wholesaler_has_products
-        except IntegrityError as e:
-            return str(e)
-            # raise HTTPException(status_code=400, detail=f"Wholesaler product with provided "
-            #                                             f"wholesaler_id/product_id: {wholesaler_id, product_id} "
-            #                                             f"already exists.")
+        except IntegrityError:
+            raise HTTPException(status_code=400, detail=f"Wholesaler product with provided "
+                                                        f"wholesaler_id/product_id: {wholesaler_id, product_id} "
+                                                        f"already exists.")
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
 
@@ -88,9 +89,11 @@ class WholesalerHasProductsController:
             raise HTTPException(status_code=500, detail=str(e))
 
     @staticmethod
-    def update_wholesaler_product(id: str, wholesaler_id: str, product_id: str, price: float, quantity_available: float):
+    def update_wholesaler_product(wholesaler_id: str, product_id: str, price: float, quantity_available: float):
         try:
-            return WholesalerHasProductsServices.update_wholesaler_product(id, wholesaler_id, product_id, price,
+            return WholesalerHasProductsServices.update_wholesaler_product(wholesaler_id, product_id, price,
                                                                            quantity_available)
+        except WholesalerProductNotFoundException as e:
+            raise HTTPException(status_code=e.code, detail=e.message)
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))

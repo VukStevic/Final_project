@@ -1,3 +1,4 @@
+from app.orders.exceptions import OrderNotFoundException
 from app.orders.repositories import OrderRepository
 from app.db.database import SessionLocal
 
@@ -84,6 +85,8 @@ class OrderServices:
                 order_repository = OrderRepository(db)
                 order = order_repository.update_order(order_id, type, order_date)
                 return order
+            except OrderNotFoundException as e:
+                raise e
             except Exception as e:
                 raise e
 

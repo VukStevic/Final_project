@@ -1,3 +1,4 @@
+from app.order_status.exceptions import OrderStatusNotFound
 from app.order_status.repositories import OrderStatusRepository
 from app.db.database import SessionLocal
 
@@ -61,6 +62,8 @@ class OrderStatusServices:
             try:
                 order_status_repository = OrderStatusRepository(db)
                 return order_status_repository.update_order_status(id, status_code, description)
+            except OrderStatusNotFound as e:
+                raise e
             except Exception as e:
                 raise e
 

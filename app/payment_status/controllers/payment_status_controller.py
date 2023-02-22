@@ -1,4 +1,5 @@
 from sqlalchemy.exc import IntegrityError
+from app.payment_status.exceptions.payment_status_exceptions import PaymentStatusNotFound
 from app.payment_status.services import PaymentStatusServices
 from fastapi import HTTPException, Response
 
@@ -66,6 +67,8 @@ class PaymentStatusController:
     def update_payment_status(id: str, status_code: str, status_description: str):
         try:
             return PaymentStatusServices.update_payment_status(id, status_code, status_description)
+        except PaymentStatusNotFound as e:
+            raise HTTPException(status_code=e.code, detail=e.message)
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
 

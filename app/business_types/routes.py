@@ -3,6 +3,7 @@ from app.business_types.schemas import BusinessTypeSchema, BusinessTypeSchemaIn,
 from app.business_types.controllers import BusinessTypeController
 from app.users.controllers import JWTBearer
 
+
 business_type_router = APIRouter(prefix="/api/business-types", tags=["Business types"])
 
 

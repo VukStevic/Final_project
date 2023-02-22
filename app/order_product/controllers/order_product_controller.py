@@ -1,4 +1,6 @@
 from sqlalchemy.exc import IntegrityError
+
+from app.order_product.exceptions import OrderProductNotFoundException
 from app.order_product.services import OrderProductServices
 from fastapi import HTTPException, Response
 
@@ -34,30 +36,27 @@ class OrderProductController:
 
     @staticmethod
     def get_order_product_by_order_id(order_id: str):
-        order_product = OrderProductServices.get_order_product_by_order_id(order_id)
-        if order_product:
+        try:
+            order_product = OrderProductServices.get_order_product_by_order_id(order_id)
             return order_product
-        else:
-            raise HTTPException(status_code=400, detail=f"Order product with provided order "
-                                                        f"id: {order_id} does not exist.")
+        except OrderProductNotFoundException as e:
+            raise HTTPException(status_code=e.code, detail=e.message)
 
     @staticmethod
     def get_order_product_by_wholesaler_product_id(wholesaler_product_id: str):
-        order_product = OrderProductServices.get_order_product_by_wholesaler_product_id(wholesaler_product_id)
-        if order_product:
+        try:
+            order_product = OrderProductServices.get_order_product_by_wholesaler_product_id(wholesaler_product_id)
             return order_product
-        else:
-            raise HTTPException(status_code=400, detail=f"Order product with provided "
-                                                        f"id: {wholesaler_product_id} does not exist.")
+        except OrderProductNotFoundException as e:
+            raise HTTPException(status_code=e.code, detail=e.message)
 
     @staticmethod
     def get_order_product_by_id(id: str):
-        order_product = OrderProductServices.get_order_product_by_id(id)
-        if order_product:
+        try:
+            order_product = OrderProductServices.get_order_product_by_id(id)
             return order_product
-        else:
-            raise HTTPException(status_code=400, detail=f"Order product with provided "
-                                                        f"id: {id} does not exist.")
+        except OrderProductNotFoundException as e:
+            raise HTTPException(status_code=e.code, detail=e.message)
 
     @staticmethod
     def get_average_product_count_per_order():
@@ -76,9 +75,10 @@ class OrderProductController:
     @staticmethod
     def update_order_product(id: str, quantity: float):
         try:
-            return OrderProductServices.update_order_product(id, quantity)
-        except Exception as e:
-            raise HTTPException(status_code=400, detail=str(e))
+            order_product = OrderProductServices.update_order_product(id, quantity)
+            return order_product
+        except OrderProductNotFoundException as e:
+            raise HTTPException(status_code=e.code, detail=e.message)
 
     @staticmethod
     def delete_order_product_by_order_id(order_id: str):

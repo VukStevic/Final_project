@@ -1,5 +1,7 @@
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
+
+from app.products.exceptions.product_exceptions import ProductNotFound
 from app.products.models import Product
 
 
@@ -40,15 +42,15 @@ class ProductRepository:
             raise e
 
     def update_product(self, product_id: str, name: str, description: str):
-        try:
-            product = self.db.query(Product).filter(Product.id == product_id).first()
-            if name is not None:
-                product.name = name
-            if description is not None:
-                product.description = description
-            self.db.add(product)
-            self.db.commit()
-            self.db.refresh(product)
-            return product
-        except Exception as e:
-            raise e
+        product = self.db.query(Product).filter(Product.id == product_id).first()
+        if not product:
+            raise ProductNotFound(code=400, message=f"Product with provided product id {product_id} not found.")
+        if name is not None:
+            product.name = name
+        if description is not None:
+            product.description = description
+        self.db.add(product)
+        self.db.commit()
+        self.db.refresh(product)
+        return product
+

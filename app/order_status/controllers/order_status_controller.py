@@ -1,4 +1,5 @@
 from sqlalchemy.exc import IntegrityError
+from app.order_status.exceptions import OrderStatusNotFound
 from app.order_status.services import OrderStatusServices
 from fastapi import HTTPException, Response
 
@@ -66,6 +67,8 @@ class OrderStatusController:
     def update_order_status(id: str, status_code: str, description: str):
         try:
             return OrderStatusServices.update_order_status(id, status_code, description)
+        except OrderStatusNotFound as e:
+            raise HTTPException(status_code=e.code, detail=e.message)
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
 

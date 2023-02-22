@@ -59,4 +59,4 @@ class ProductCategoryController:
         try:
             return ProductCategoryServices.update_product_category(product_category_id, name, description)
         except ProductCategoryNotFound as e:
-            raise HTTPException(status_code=400, detail=str(e))
+            raise HTTPException(status_code=e.code, detail=e.message)

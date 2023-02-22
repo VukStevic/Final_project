@@ -1,3 +1,4 @@
+from app.wholesaler_has_products.exceptions import WholesalerProductNotFoundException
 from app.wholesaler_has_products.repositories import WholesalerHasProductsRepository
 from app.db.database import SessionLocal
 
@@ -86,11 +87,13 @@ class WholesalerHasProductsServices:
                 raise e
 
     @staticmethod
-    def update_wholesaler_product(id: str, wholesaler_id: str, product_id: str, price: float, quantity_available: float):
+    def update_wholesaler_product(wholesaler_id: str, product_id: str, price: float, quantity_available: float):
         with SessionLocal() as db:
             try:
                 wholesaler_product_repository = WholesalerHasProductsRepository(db)
-                return wholesaler_product_repository.update_wholesaler_product(id, wholesaler_id, product_id, price,
+                return wholesaler_product_repository.update_wholesaler_product(wholesaler_id, product_id, price,
                                                                                quantity_available)
+            except WholesalerProductNotFoundException as e:
+                raise e
             except Exception as e:
                 raise e

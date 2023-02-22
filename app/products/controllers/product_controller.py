@@ -1,4 +1,6 @@
 from sqlalchemy.exc import IntegrityError
+
+from app.products.exceptions.product_exceptions import ProductNotFound
 from app.products.services import ProductServices
 from fastapi import HTTPException, Response
 
@@ -49,5 +51,7 @@ class ProductController:
     def update_product(product_id: str, name: str, description: str):
         try:
             return ProductServices.update_product(product_id, name, description)
+        except ProductNotFound as e:
+            raise HTTPException(status_code=e.code, detail=e.message)
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))

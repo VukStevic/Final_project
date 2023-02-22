@@ -1,4 +1,5 @@
 from app.db.database import SessionLocal
+from app.retailers.exceptions.retailer_exceptions import RetailerNotFound
 from app.retailers.repositories import RetailerRepository
 
 
@@ -67,5 +68,7 @@ class RetailerServices:
             try:
                 retailer_repository = RetailerRepository(db)
                 return retailer_repository.update_retailer(retailer_id, name, hq_location, landline, business_email)
+            except RetailerNotFound as e:
+                raise e
             except Exception as e:
                 raise e

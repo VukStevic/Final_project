@@ -1,5 +1,7 @@
 from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
+
+from app.wholesalers.exceptions.wholesaler_exceptions import WholesalerNotFound
 from app.wholesalers.services import WholesalerServices
 
 
@@ -67,5 +69,7 @@ class WholesalerController:
     def update_wholesaler(wholesaler_id: str, name: str, hq_location: str, landline: str, business_email: str):
         try:
             return WholesalerServices.update_wholesaler(wholesaler_id, name, hq_location, landline, business_email)
+        except WholesalerNotFound as e:
+            raise HTTPException(status_code=e.code, detail=e.message)
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))

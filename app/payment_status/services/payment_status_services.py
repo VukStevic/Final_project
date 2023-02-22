@@ -1,3 +1,4 @@
+from app.payment_status.exceptions.payment_status_exceptions import PaymentStatusNotFound
 from app.payment_status.repositories import PaymentStatusRepository
 from app.db.database import SessionLocal
 
@@ -61,6 +62,8 @@ class PaymentStatusServices:
             try:
                 payment_status_repository = PaymentStatusRepository(db)
                 return payment_status_repository.update_payment_status(id, status_code, status_description)
+            except PaymentStatusNotFound as e:
+                raise e
             except Exception as e:
                 raise e
 

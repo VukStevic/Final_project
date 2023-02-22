@@ -1,6 +1,7 @@
 import datetime
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
+from app.order_status.exceptions import OrderStatusNotFound
 from app.order_status.models import OrderStatus
 
 
@@ -65,16 +66,16 @@ class OrderStatusRepository:
             raise e
 
     def update_order_status(self, id: str, status_code: str, description: str):
-        try:
-            order_status = self.db.query(OrderStatus).filter(OrderStatus.id == id).first()
-            order_status.date_and_time = datetime.datetime.now().strftime("%d-%m-%Y, %H:%M:%S")
-            if status_code is not None:
-                order_status.status_code = status_code
-            if description is not None:
-                order_status.description = description
-            self.db.add(order_status)
-            self.db.commit()
-            self.db.refresh(order_status)
-            return order_status
-        except Exception as e:
-            raise e
+        order_status = self.db.query(OrderStatus).filter(OrderStatus.id == id).first()
+        if not order_status:
+            raise OrderStatusNotFound(code=400, message=f"Order status with provided id: {id} not found.")
+        order_status.date_and_time = datetime.datetime.now().strftime("%d-%m-%Y, %H:%M:%S")
+        if status_code is not None:
+            order_status.status_code = status_code
+        if description is not None:
+            order_status.description = description
+        self.db.add(order_status)
+        self.db.commit()
+        self.db.refresh(order_status)
+        return order_status
+

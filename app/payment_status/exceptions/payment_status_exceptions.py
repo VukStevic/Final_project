@@ -1,6 +1,7 @@
 
 
-class OrderProductNotFoundException(Exception):
+class PaymentStatusNotFound(Exception):
     def __init__(self, code, message):
         self.code = code
         self.message = message
+

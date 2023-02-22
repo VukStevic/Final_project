@@ -1,4 +1,5 @@
 from app.db.database import SessionLocal
+from app.wholesalers.exceptions.wholesaler_exceptions import WholesalerNotFound
 from app.wholesalers.repositories import WholesalerRepository
 
 
@@ -68,5 +69,7 @@ class WholesalerServices:
                 wholesaler_repository = WholesalerRepository(db)
                 return wholesaler_repository.update_wholesaler(wholesaler_id, name, hq_location, landline,
                                                                business_email)
+            except WholesalerNotFound as e:
+                raise e
             except Exception as e:
                 raise e

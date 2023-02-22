@@ -1,5 +1,7 @@
 from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
+
+from app.retailers.exceptions.retailer_exceptions import RetailerNotFound
 from app.retailers.services import RetailerServices
 
 
@@ -67,5 +69,7 @@ class RetailerController:
     def update_retailer(retailer_id: str, name: str, hq_location: str, landline: str, business_email: str):
         try:
             return RetailerServices.update_retailer(retailer_id, name, hq_location, landline, business_email)
+        except RetailerNotFound as e:
+            raise HTTPException(status_code=e.code, detail=e.message)
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))

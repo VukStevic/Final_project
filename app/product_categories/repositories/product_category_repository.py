@@ -52,16 +52,15 @@ class ProductCategoryRepository:
             raise e
 
     def update_product_category(self, product_category_id: str, name: str, description: str):
-        try:
-            product_category = self.db.query(ProductCategory).filter(ProductCategory.id == product_category_id).first()
-            if name is not None:
-                product_category.name = name
-            if description is not None:
-                product_category.description = description
-            self.db.add(product_category)
-            self.db.commit()
-            self.db.refresh(product_category)
-            return product_category
-        except Exception:
-            raise ProductCategoryNotFound(code=400, message=f"Product category with provided id: {product_category_id}"
-                                                            f" does not exist.")
+        product_category = self.db.query(ProductCategory).filter(ProductCategory.id == product_category_id).first()
+        if not product_category:
+            raise ProductCategoryNotFound(code=400, message=f"Product category with provided product category id: "
+                                                            f"{product_category_id} not found.")
+        if name is not None:
+            product_category.name = name
+        if description is not None:
+            product_category.description = description
+        self.db.add(product_category)
+        self.db.commit()
+        self.db.refresh(product_category)
+        return product_category

@@ -29,7 +29,6 @@ class WholesalerHasProductsSchemaIn(BaseModel):
 
 
 class WholesalerHasProductsSchemaUpdate(BaseModel):
-    id: str
     wholesaler_id: str
     product_id: str
     price: Optional[float] = None

@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from app.order_product.services import OrderProductServices
 from app.orders.exceptions import OrderNotFoundException
 from app.orders.services import OrderServices
+from app.payments.exceptions.payment_exceptions import PaymentNotFound
 from app.payments.models import Payment
 
 
@@ -62,22 +63,18 @@ class PaymentRepository:
             raise e
 
     def update_payment_amount(self, order_id: str):
-        try:
-            payment = self.db.query(Payment).filter(Payment.order_id == order_id).first()
-            order_products = OrderProductServices.get_order_product_by_order_id(order_id)
-            if not OrderServices.get_order_by_id(order_id):
-                raise OrderNotFoundException(code=400, message=f"Order with provided order id: {order_id} not found.")
-            payment_amount = 0
-            for product in order_products:
-                payment_amount += product.price * product.quantity
-            payment.payment_amount = payment_amount
-            self.db.add(payment)
-            self.db.commit()
-            self.db.refresh(payment)
-            return payment
-        except OrderNotFoundException as e:
-            raise e
-        except IntegrityError as e:
-            raise e
-        except Exception as e:
-            raise e
+        payment = self.db.query(Payment).filter(Payment.order_id == order_id).first()
+        if not payment:
+            raise PaymentNotFound(code=400, message=f"Payment with provided order id: {order_id} not found.")
+        order_products = OrderProductServices.get_order_product_by_order_id(order_id)
+        if not OrderServices.get_order_by_id(order_id):
+            raise OrderNotFoundException(code=400, message=f"Order with provided order id: {order_id} not found.")
+        payment_amount = 0
+        for product in order_products:
+            payment_amount += product.price * product.quantity
+        payment.payment_amount = payment_amount
+        self.db.add(payment)
+        self.db.commit()
+        self.db.refresh(payment)
+        return payment
+

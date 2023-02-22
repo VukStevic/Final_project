@@ -1,7 +1,7 @@
 from datetime import datetime
-
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
+from app.orders.exceptions import OrderNotFoundException
 from app.orders.models import Order
 
 
@@ -82,15 +82,15 @@ class OrderRepository:
             raise e
 
     def update_order(self, order_id: str, type: str, order_date: str):
-        try:
-            order = self.db.query(Order).filter(Order.id == order_id).first()
-            if type is not None:
-                order.type = type
-            if order_date is not None:
-                order.order_date = order_date
-            self.db.add(order)
-            self.db.commit()
-            self.db.refresh(order)
-            return order
-        except Exception as e:
-            raise e
+        order = self.db.query(Order).filter(Order.id == order_id).first()
+        if not order:
+            raise OrderNotFoundException(code=400, message=f"Order with provided id {order_id} not found.")
+        if type is not None:
+            order.type = type
+        if order_date is not None:
+            order.order_date = order_date
+        self.db.add(order)
+        self.db.commit()
+        self.db.refresh(order)
+        return order
+

@@ -1,4 +1,5 @@
 from sqlalchemy.exc import IntegrityError
+from app.business_types.exceptions.business_type_exceptions import BusinessTypeNotFound
 from app.business_types.services import BusinessTypeServices
 from fastapi import HTTPException, Response
 
@@ -21,20 +22,18 @@ class BusinessTypeController:
 
     @staticmethod
     def get_business_type_by_id(business_type_id: str):
-        business_type = BusinessTypeServices.get_business_type_by_id(business_type_id)
-        if business_type:
-            return business_type
-        else:
-            raise HTTPException(status_code=400, detail=f"Business type with provided "
-                                                        f"id: {business_type_id} does not exist.")
+        try:
+            return BusinessTypeServices.get_business_type_by_id(business_type_id)
+        except BusinessTypeNotFound as e:
+            raise HTTPException(status_code=e.code, detail=e.message)
 
     @staticmethod
     def delete_business_type_by_id(business_type_id: str):
         try:
             BusinessTypeServices.delete_business_type_by_id(business_type_id)
             return Response(content=f'Business type with id: "{business_type_id}" successfully deleted.')
-        except Exception as e:
-            raise HTTPException(status_code=400, detail=str(e))
+        except BusinessTypeNotFound as e:
+            raise HTTPException(status_code=e.code, detail=e.message)
 
     @staticmethod
     def update_business_type_name(business_type_id: str, name: str):
@@ -54,5 +53,5 @@ class BusinessTypeController:
     def update_business_type(business_type_id: str, name: str, description: str):
         try:
             return BusinessTypeServices.update_business_type(business_type_id, name, description)
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=str(e))
+        except BusinessTypeNotFound as e:
+            raise HTTPException(status_code=e.code, detail=e.message)

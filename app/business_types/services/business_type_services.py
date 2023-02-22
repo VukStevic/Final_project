@@ -1,3 +1,4 @@
+from app.business_types.exceptions.business_type_exceptions import BusinessTypeNotFound
 from app.business_types.repositories import BusinessTypeRepository
 from app.db.database import SessionLocal
 
@@ -21,9 +22,12 @@ class BusinessTypeServices:
 
     @staticmethod
     def get_business_type_by_id(business_type_id: str):
-        with SessionLocal() as db:
-            business_type_repository = BusinessTypeRepository(db)
-            return business_type_repository.get_business_type_by_id(business_type_id)
+        try:
+            with SessionLocal() as db:
+                business_type_repository = BusinessTypeRepository(db)
+                return business_type_repository.get_business_type_by_id(business_type_id)
+        except BusinessTypeNotFound as e:
+            raise e
 
     @staticmethod
     def delete_business_type_by_id(business_type_id: str):
@@ -31,8 +35,9 @@ class BusinessTypeServices:
             with SessionLocal() as db:
                 business_type_repository = BusinessTypeRepository(db)
                 return business_type_repository.delete_business_type_by_id(business_type_id)
-        except Exception as e:
-            raise e
+        except Exception:
+            raise BusinessTypeNotFound(code=400, message=f"Business type with provided id: {business_type_id} "
+                                                         f"does not exist.")
 
     @staticmethod
     def update_business_type_name(business_type_id: str, name: str):
@@ -60,5 +65,6 @@ class BusinessTypeServices:
                 business_type_repository = BusinessTypeRepository(db)
                 business_type = business_type_repository.update_business_type(business_type_id, name, description)
                 return business_type
-            except Exception as e:
-                raise e
+            except Exception:
+                raise BusinessTypeNotFound(code=400, message=f"Business type with provided id: {business_type_id} "
+                                                             f"does not exist.")

@@ -2,6 +2,7 @@ from sqlalchemy.exc import IntegrityError
 from app.order_product.exceptions import OrderProductNotFoundException
 from app.orders.exceptions import OrderNotFoundException
 from app.orders.services import OrderServices
+from app.payments.exceptions.payment_exceptions import PaymentNotFound
 from app.payments.repositories import PaymentRepository
 from app.db.database import SessionLocal
 
@@ -76,9 +77,9 @@ class PaymentServices:
             try:
                 payment_repository = PaymentRepository(db)
                 return payment_repository.update_payment_amount(order_id)
-            except OrderNotFoundException as e:
+            except PaymentNotFound as e:
                 raise e
-            except IntegrityError as e:
+            except OrderNotFoundException as e:
                 raise e
             except Exception as e:
                 raise e

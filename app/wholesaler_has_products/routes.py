@@ -58,7 +58,7 @@ def update_wholesaler_product_quantity_available(wholesaler_id: str, product_id:
 @wholesaler_has_products_router.put("/update-wholesaler-product", response_model=WholesalerHasProductsSchema)
 def update_wholesaler_product(wholesaler_product: WholesalerHasProductsSchemaUpdate):
     return WholesalerHasProductsController.update_wholesaler_product(
-        id=wholesaler_product.id, wholesaler_id=wholesaler_product.wholesaler_id,
+        wholesaler_id=wholesaler_product.wholesaler_id,
         quantity_available=wholesaler_product.quantity_available, price=wholesaler_product.price,
         product_id=wholesaler_product.product_id)
 
