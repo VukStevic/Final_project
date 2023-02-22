@@ -32,16 +32,6 @@ def get_order_by_retailer_id(retailer_id: str):
     return OrderController.get_order_by_retailer_id(retailer_id=retailer_id)
 
 
-@order_router.put("/update-order-type", response_model=OrderSchema)
-def update_order_type(order_id: str, type: str):
-    return OrderController.update_order_type(order_id=order_id, type=type)
-
-
-@order_router.put("/update-order-date", response_model=OrderSchema)
-def update_order_date(order_id: str, order_date: str):
-    return OrderController.update_order_date(order_id=order_id, order_date=order_date)
-
-
 @order_router.put("/update-order", response_model=OrderSchema)
 def update_order(order: OrderSchemaUpdate):
     return OrderController.update_order(order_id=order.order_id, type=order.type, order_date=order.order_date)

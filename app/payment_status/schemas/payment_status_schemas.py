@@ -1,4 +1,3 @@
-from datetime import datetime
 from pydantic import BaseModel, UUID4
 from typing import Optional
 from app.payments.schemas import PaymentSchema

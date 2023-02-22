@@ -10,6 +10,9 @@ class RetailerRepository:
         self.db = db
 
     def create_retailer(self, name, hq_location, landline, business_email, business_type_id, user_id):
+        """
+        It creates a retailer
+        """
         try:
             retailer = Retailer(name, hq_location, landline, business_email, business_type_id, user_id)
             self.db.add(retailer)
@@ -20,14 +23,23 @@ class RetailerRepository:
             raise e
 
     def get_all_retailers(self):
+        """
+        It returns all the retailers in the database
+        """
         retailers = self.db.query(Retailer).all()
         return retailers
 
     def get_retailer_by_id(self, retailer_id: str):
+        """
+        It returns a retailer object from the database, given a retailer id
+        """
         retailer = self.db.query(Retailer).filter(Retailer.id == retailer_id).first()
         return retailer
 
     def delete_retailer_by_id(self, retailer_id: str):
+        """
+        It deletes a retailer from the database by its id
+        """
         try:
             retailer = self.db.query(Retailer).filter(Retailer.id == retailer_id).first()
             self.db.delete(retailer)
@@ -36,40 +48,10 @@ class RetailerRepository:
         except Exception as e:
             raise e
 
-    def update_retailer_name(self, retailer_id: str, name: str):
-        try:
-            retailer = self.db.query(Retailer).filter(Retailer.id == retailer_id).first()
-            retailer.name = name
-            self.db.add(retailer)
-            self.db.commit()
-            self.db.refresh(retailer)
-            return retailer
-        except Exception as e:
-            raise e
-
-    def update_retailer_landline(self, retailer_id: str, landline: str):
-        try:
-            retailer = self.db.query(Retailer).filter(Retailer.id == retailer_id).first()
-            retailer.landline = landline
-            self.db.add(retailer)
-            self.db.commit()
-            self.db.refresh(retailer)
-            return retailer
-        except Exception as e:
-            raise e
-
-    def update_retailer_business_email(self, retailer_id: str, business_email: str):
-        try:
-            retailer = self.db.query(Retailer).filter(Retailer.id == retailer_id).first()
-            retailer.business_email = business_email
-            self.db.add(retailer)
-            self.db.commit()
-            self.db.refresh(retailer)
-            return retailer
-        except Exception as e:
-            raise e
-
     def update_retailer(self, retailer_id: str, name: str, hq_location: str, landline: str, business_email: str):
+        """
+        It updates the retailer with the given id, with the given name, hq_location, landline and business_email
+        """
         retailer = self.db.query(Retailer).filter(Retailer.id == retailer_id).first()
         if not retailer:
             raise RetailerNotFound(code=400, message=f"Retailer with provided id {retailer_id} not found.")

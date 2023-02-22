@@ -7,7 +7,8 @@ if settings.USE_TEST_DB:
 else:
     db_name = settings.DB_NAME
 
-MYSQL_URL = f"{settings.DB_HOST}://{settings.DB_USER}:{settings.DB_PASSWORD}@{settings.DB_HOSTNAME}:{settings.DB_PORT}/{db_name}"
+MYSQL_URL = f"{settings.DB_HOST}://{settings.DB_USER}:{settings.DB_PASSWORD}@{settings.DB_HOSTNAME}:" \
+            f"{settings.DB_PORT}/{db_name}"
 
 engine = create_engine(MYSQL_URL, echo=True)
 

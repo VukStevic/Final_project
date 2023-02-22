@@ -24,28 +24,13 @@ def get_wholesaler_by_id(wholesaler_id: str):
     return WholesalerController.get_wholesaler_by_id(wholesaler_id)
 
 
-@wholesaler_router.delete("/", dependencies=[Depends(JWTBearer("super_user"))])
-def delete_wholesaler_by_id(wholesaler_id: str):
-    return WholesalerController.delete_wholesaler_by_id(wholesaler_id)
-
-
-@wholesaler_router.put("/update/name", response_model=WholesalerSchema)
-def update_wholesaler_name(wholesaler_id: str, name: str):
-    return WholesalerController.update_wholesaler_name(wholesaler_id, name)
-
-
-@wholesaler_router.put("/update/landline", response_model=WholesalerSchema)
-def update_wholesaler_landline(wholesaler_id: str, landline: str):
-    return WholesalerController.update_wholesaler_landline(wholesaler_id, landline)
-
-
-@wholesaler_router.put("/update/business-email", response_model=WholesalerSchema)
-def update_wholesaler_business_email(wholesaler_id: str, business_email: str):
-    return WholesalerController.update_wholesaler_business_email(wholesaler_id, business_email)
-
-
 @wholesaler_router.put("/update-wholesaler", response_model=WholesalerSchema)
 def update_wholesaler(wholesaler: WholesalerSchemaUpdate):
     return WholesalerController.update_wholesaler(wholesaler_id=wholesaler.wholesaler_id, name=wholesaler.name,
                                                   landline=wholesaler.landline, hq_location=wholesaler.hq_location,
                                                   business_email=wholesaler.business_email)
+
+
+@wholesaler_router.delete("/", dependencies=[Depends(JWTBearer("super_user"))])
+def delete_wholesaler_by_id(wholesaler_id: str):
+    return WholesalerController.delete_wholesaler_by_id(wholesaler_id)

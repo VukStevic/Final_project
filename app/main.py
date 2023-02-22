@@ -1,7 +1,6 @@
 import uvicorn
 from fastapi import FastAPI
 from starlette.responses import RedirectResponse
-
 from app.analytics.routes import analytics_router
 from app.db.database import engine, Base
 from app.business_types.routes import business_type_router

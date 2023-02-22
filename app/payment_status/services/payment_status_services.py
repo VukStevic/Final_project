@@ -7,6 +7,9 @@ class PaymentStatusServices:
 
     @staticmethod
     def create_payment_status(status_code: str, status_description: str, payment_id: str):
+        """
+        It creates a payment status in the database
+        """
         with SessionLocal() as db:
             try:
                 payment_status_repository = PaymentStatusRepository(db)
@@ -16,30 +19,45 @@ class PaymentStatusServices:
 
     @staticmethod
     def get_all_payment_statuses():
+        """
+        It gets all payment statuses from the database
+        """
         with SessionLocal() as db:
             payment_status_repository = PaymentStatusRepository(db)
             return payment_status_repository.get_all_payment_statuses()
 
     @staticmethod
     def get_payment_status_by_id(id: str):
+        """
+        > This function gets a payment status by id
+        """
         with SessionLocal() as db:
             payment_status_repository = PaymentStatusRepository(db)
             return payment_status_repository.get_payment_status_by_id(id)
 
     @staticmethod
     def get_payment_status_by_payment_id(payment_id: str):
+        """
+        > This function gets the payment status by payment id
+        """
         with SessionLocal() as db:
             payment_status_repository = PaymentStatusRepository(db)
             return payment_status_repository.get_payment_status_by_payment_id(payment_id)
 
     @staticmethod
     def get_payment_status_by_date_and_time(date_and_time: str):
+        """
+        It gets a payment status by date and time
+        """
         with SessionLocal() as db:
             payment_status_repository = PaymentStatusRepository(db)
             return payment_status_repository.get_payment_status_by_date_and_time(date_and_time)
 
     @staticmethod
     def delete_payment_status_by_id(id: str):
+        """
+        It deletes a payment status by id.
+        """
         try:
             with SessionLocal() as db:
                 payment_status_repository = PaymentStatusRepository(db)
@@ -49,6 +67,9 @@ class PaymentStatusServices:
 
     @staticmethod
     def delete_payment_status_by_date_and_time(date_and_time: str):
+        """
+        It deletes a payment status by date and time
+        """
         try:
             with SessionLocal() as db:
                 payment_status_repository = PaymentStatusRepository(db)
@@ -58,21 +79,14 @@ class PaymentStatusServices:
 
     @staticmethod
     def update_payment_status(id: str, status_code: str, status_description: str):
+        """
+        It updates the payment status of a payment with the given id
+        """
         with SessionLocal() as db:
             try:
                 payment_status_repository = PaymentStatusRepository(db)
                 return payment_status_repository.update_payment_status(id, status_code, status_description)
             except PaymentStatusNotFound as e:
                 raise e
-            except Exception as e:
-                raise e
-
-    @staticmethod
-    def update_payment_status_description(id: str, status_description: str):
-        with SessionLocal() as db:
-            try:
-                payment_status_repository = PaymentStatusRepository(db)
-                payment_status = payment_status_repository.update_payment_status_description(id, status_description)
-                return payment_status
             except Exception as e:
                 raise e

@@ -39,12 +39,6 @@ def update_payment_status(payment_status: PaymentStatusSchemaUpdate):
                                                          status_description=payment_status.status_description)
 
 
-@payment_status_router.put("/update-payment_status-description", response_model=PaymentStatusSchema)
-def update_payment_status_description(id: str, status_description: str):
-    return PaymentStatusController.update_payment_status_description(id=id,
-                                                                     status_description=status_description)
-
-
 @payment_status_router.delete("/delete-payment-status-by-id", dependencies=[Depends(JWTBearer("super_user"))])
 def delete_payment_status_by_id(id: str):
     return PaymentStatusController.delete_payment_status_by_id(id=id)

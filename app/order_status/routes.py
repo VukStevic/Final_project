@@ -6,7 +6,8 @@ from app.users.controllers import JWTBearer
 order_status_router = APIRouter(prefix="/api/order-status", tags=["Order status"])
 
 
-@order_status_router.post("/create-order-status", response_model=OrderStatusSchema)
+@order_status_router.post("/create-order-status", response_model=OrderStatusSchema,
+                          dependencies=[Depends(JWTBearer("super_user"))])
 def create_order_status(order_status: OrderStatusSchemaIn):
     return OrderStatusController.create_order_status(status_code=order_status.status_code,
                                                      description=order_status.description,
@@ -33,15 +34,11 @@ def get_order_status_by_date_and_time(date_and_time: str):
     return OrderStatusController.get_order_status_by_date_and_time(date_and_time=date_and_time)
 
 
-@order_status_router.put("/update-order_status", response_model=OrderStatusSchema)
+@order_status_router.put("/update-order_status", response_model=OrderStatusSchema,
+                         dependencies=[Depends(JWTBearer("super_user"))])
 def update_order_status(order_status: OrderStatusSchemaUpdate):
     return OrderStatusController.update_order_status(id=order_status.id, status_code=order_status.status_code,
                                                      description=order_status.description)
-
-
-@order_status_router.put("/update-order_status-description", response_model=OrderStatusSchema)
-def update_order_status_description(id: str, description: str):
-    return OrderStatusController.update_order_status_description(id=id, description=description)
 
 
 @order_status_router.delete("/delete-order-status-by-id", dependencies=[Depends(JWTBearer("super_user"))])

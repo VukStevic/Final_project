@@ -8,7 +8,7 @@ USER_SECRET = settings.USER_SECRET
 JWT_ALGORITHM = settings.ALGORITHM
 
 
-def signJWT(user_id: str, role:str) -> Dict[str, str]:
+def signJWT(user_id: str, role: str) -> Dict[str, str]:
     payload = {
         "user_id": user_id,
         "role": role,

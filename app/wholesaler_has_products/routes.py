@@ -38,23 +38,6 @@ def get_wholesaler_product_by_product_id(product_id: str):
     return WholesalerHasProductsController.get_wholesaler_product_by_product_id(product_id=product_id)
 
 
-@wholesaler_has_products_router.put("/update-wholesaler-product-price", response_model=WholesalerHasProductsSchema)
-def update_wholesaler_product_price(wholesaler_id: str, product_id: str, price: float):
-    return WholesalerHasProductsController.update_wholesaler_product_price(
-        wholesaler_id=wholesaler_id,
-        product_id=product_id,
-        price=price)
-
-
-@wholesaler_has_products_router.put("/update-wholesaler-product-quantity-available",
-                                    response_model=WholesalerHasProductsSchema)
-def update_wholesaler_product_quantity_available(wholesaler_id: str, product_id: str, quantity_available: float):
-    return WholesalerHasProductsController.update_wholesaler_product_quantity_available(
-        wholesaler_id=wholesaler_id,
-        product_id=product_id,
-        quantity_available=quantity_available)
-
-
 @wholesaler_has_products_router.put("/update-wholesaler-product", response_model=WholesalerHasProductsSchema)
 def update_wholesaler_product(wholesaler_product: WholesalerHasProductsSchemaUpdate):
     return WholesalerHasProductsController.update_wholesaler_product(

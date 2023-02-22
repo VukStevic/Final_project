@@ -7,6 +7,9 @@ class BusinessTypeServices:
 
     @staticmethod
     def create_business_type(name, description: str):
+        """
+        It creates a business type
+        """
         with SessionLocal() as db:
             try:
                 business_type_repository = BusinessTypeRepository(db)
@@ -16,12 +19,18 @@ class BusinessTypeServices:
 
     @staticmethod
     def get_all_business_types():
+        """
+        It gets all business types from the database
+        """
         with SessionLocal() as db:
             business_type_repository = BusinessTypeRepository(db)
             return business_type_repository.get_all_business_types()
 
     @staticmethod
     def get_business_type_by_id(business_type_id: str):
+        """
+        It gets a business type by id
+        """
         try:
             with SessionLocal() as db:
                 business_type_repository = BusinessTypeRepository(db)
@@ -31,6 +40,9 @@ class BusinessTypeServices:
 
     @staticmethod
     def delete_business_type_by_id(business_type_id: str):
+        """
+        It deletes a business type by id
+        """
         try:
             with SessionLocal() as db:
                 business_type_repository = BusinessTypeRepository(db)
@@ -40,26 +52,10 @@ class BusinessTypeServices:
                                                          f"does not exist.")
 
     @staticmethod
-    def update_business_type_name(business_type_id: str, name: str):
-        with SessionLocal() as db:
-            try:
-                business_type_repository = BusinessTypeRepository(db)
-                return business_type_repository.update_business_type_name(business_type_id, name)
-            except Exception as e:
-                raise e
-
-    @staticmethod
-    def update_business_type_description(business_type_id: str, description: str):
-        with SessionLocal() as db:
-            try:
-                business_type_repository = BusinessTypeRepository(db)
-                business_type = business_type_repository.update_business_type_description(business_type_id, description)
-                return business_type
-            except Exception as e:
-                raise e
-
-    @staticmethod
     def update_business_type(business_type_id: str, name: str, description: str):
+        """
+        Update a business type with the provided id, name and description
+        """
         with SessionLocal() as db:
             try:
                 business_type_repository = BusinessTypeRepository(db)

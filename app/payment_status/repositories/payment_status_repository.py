@@ -13,6 +13,9 @@ class PaymentStatusRepository:
         self.db = db
 
     def create_payment_status(self, status_code: str, status_description: str, payment_id: str):
+        """
+        It creates a new payment status and returns it
+        """
         try:
             payment_status = PaymentStatus(status_code, status_description, payment_id)
             self.db.add(payment_status)
@@ -23,22 +26,37 @@ class PaymentStatusRepository:
             raise e
 
     def get_all_payment_statuses(self):
+        """
+        It returns all the payment statuses from the database
+        """
         payment_statuses = self.db.query(PaymentStatus).all()
         return payment_statuses
 
     def get_payment_status_by_id(self, id: str):
+        """
+        It returns a payment status object from the database, given an id
+        """
         payment_status = self.db.query(PaymentStatus).filter(PaymentStatus.id == id).first()
         return payment_status
 
     def get_payment_status_by_payment_id(self, payment_id: str):
+        """
+        It returns the payment status of a payment with a given payment id
+        """
         payment_status = self.db.query(PaymentStatus).filter(PaymentStatus.payment_id == payment_id).first()
         return payment_status
 
     def get_payment_status_by_date_and_time(self, date_and_time: str):
+        """
+        It returns a payment status object from the database, given a date and time
+        """
         payment_status = self.db.query(PaymentStatus).filter(PaymentStatus.date_and_time == date_and_time).first()
         return payment_status
 
     def delete_payment_status_by_id(self, id: str):
+        """
+        It deletes a payment status from the database by its id
+        """
         try:
             payment_status = self.db.query(PaymentStatus).filter(PaymentStatus.id == id).first()
             self.db.delete(payment_status)
@@ -48,6 +66,9 @@ class PaymentStatusRepository:
             raise e
 
     def delete_payment_status_by_date_and_time(self, date_and_time: str):
+        """
+        It deletes a payment status from the database by date and time
+        """
         try:
             payment_status = self.db.query(PaymentStatus).filter(PaymentStatus.date_and_time == date_and_time).first()
             self.db.delete(payment_status)
@@ -57,6 +78,9 @@ class PaymentStatusRepository:
             raise e
 
     def update_payment_status(self, id: str, status_code: str, status_description: str):
+        """
+        It updates the payment status of a payment with the given id, if the payment status exists
+        """
         payment_status = self.db.query(PaymentStatus).filter(PaymentStatus.id == id).first()
         if not payment_status:
             raise PaymentStatusNotFound(code=400, message=f"Payment status with provided id: {id} not found.")
@@ -69,14 +93,3 @@ class PaymentStatusRepository:
         self.db.commit()
         self.db.refresh(payment_status)
         return payment_status
-
-    def update_payment_status_description(self, id: str, status_description: str):
-        try:
-            payment_status = self.db.query(PaymentStatus).filter(PaymentStatus.id == id).first()
-            payment_status.status_description = status_description
-            self.db.add(payment_status)
-            self.db.commit()
-            self.db.refresh(payment_status)
-            return payment_status
-        except Exception as e:
-            raise e

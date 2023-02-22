@@ -22,28 +22,13 @@ def get_retailer_by_id(retailer_id: str):
     return RetailerController.get_retailer_by_id(retailer_id)
 
 
-@retailer_router.delete("/", dependencies=[Depends(JWTBearer("super_user"))])
-def delete_retailer_by_id(retailer_id: str):
-    return RetailerController.delete_retailer_by_id(retailer_id)
-
-
-@retailer_router.put("/update/name", response_model=RetailerSchema)
-def update_retailer_name(retailer_id: str, name: str):
-    return RetailerController.update_retailer_name(retailer_id, name)
-
-
-@retailer_router.put("/update/landline", response_model=RetailerSchema)
-def update_retailer_landline(retailer_id: str, landline: str):
-    return RetailerController.update_retailer_landline(retailer_id, landline)
-
-
-@retailer_router.put("/update/business-email", response_model=RetailerSchema)
-def update_retailer_business_email(retailer_id: str, business_email: str):
-    return RetailerController.update_retailer_business_email(retailer_id, business_email)
-
-
 @retailer_router.put("/update-retailer", response_model=RetailerSchema)
 def update_retailer(retailer: RetailerSchemaUpdate):
     return RetailerController.update_retailer(retailer_id=retailer.retailer_id, name=retailer.name,
                                               hq_location=retailer.hq_location, landline=retailer.landline,
                                               business_email=retailer.business_email)
+
+
+@retailer_router.delete("/", dependencies=[Depends(JWTBearer("super_user"))])
+def delete_retailer_by_id(retailer_id: str):
+    return RetailerController.delete_retailer_by_id(retailer_id)

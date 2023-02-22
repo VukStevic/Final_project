@@ -7,7 +7,8 @@ from app.users.controllers import JWTBearer
 business_type_router = APIRouter(prefix="/api/business-types", tags=["Business types"])
 
 
-@business_type_router.post("/create-business-type", response_model=BusinessTypeSchema)
+@business_type_router.post("/create-business-type", response_model=BusinessTypeSchema,
+                           dependencies=[Depends(JWTBearer("super_user"))])
 def create_business_type(business_type: BusinessTypeSchemaIn):
     return BusinessTypeController.create_business_type(name=business_type.name, description=business_type.description)
 
@@ -22,19 +23,8 @@ def get_business_type_by_id(business_type_id: str):
     return BusinessTypeController.get_business_type_by_id(business_type_id=business_type_id)
 
 
-@business_type_router.put("/update-business-type-name", response_model=BusinessTypeSchema)
-def update_business_type_name(business_type_id: str, name: str):
-    return BusinessTypeController.update_business_type_name(business_type_id=business_type_id,
-                                                            name=name)
-
-
-@business_type_router.put("/update-business-type-description", response_model=BusinessTypeSchema)
-def update_business_type_description(business_type_id: str, description: str):
-    return BusinessTypeController.update_business_type_description(business_type_id=business_type_id,
-                                                                   description=description)
-
-
-@business_type_router.put("/update-business-type", response_model=BusinessTypeSchema)
+@business_type_router.put("/update-business-type", response_model=BusinessTypeSchema,
+                          dependencies=[Depends(JWTBearer("super_user"))])
 def update_business_type(business_type: BusinessTypeSchemaUpdate):
     return BusinessTypeController.update_business_type(business_type_id=business_type.id, name=business_type.name,
                                                        description=business_type.description)

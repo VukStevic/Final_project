@@ -8,6 +8,9 @@ from fastapi import HTTPException, Response
 class PaymentController:
     @staticmethod
     def create_payment(order_id: str):
+        """
+        It creates a payment for an order
+        """
         try:
             payment = PaymentServices.create_payment(order_id)
             return payment
@@ -22,11 +25,17 @@ class PaymentController:
 
     @staticmethod
     def get_all_payments():
+        """
+        It returns all payments
+        """
         payments = PaymentServices.get_all_payments()
         return payments
 
     @staticmethod
     def get_payment_by_id(payment_id: str):
+        """
+        It gets a payment by id.
+        """
         payment = PaymentServices.get_payment_by_id(payment_id)
         if payment:
             return payment
@@ -36,6 +45,9 @@ class PaymentController:
 
     @staticmethod
     def get_payment_by_order_id(order_id: str):
+        """
+        It gets the payment by order id.
+        """
         payment = PaymentServices.get_payment_by_order_id(order_id)
         if payment:
             return payment
@@ -45,6 +57,9 @@ class PaymentController:
 
     @staticmethod
     def get_payment_by_wholesaler_id(wholesaler_id: str):
+        """
+        It gets a payment by wholesaler id
+        """
         try:
             payment = PaymentServices.get_payment_by_wholesaler_id(wholesaler_id)
             if payment:
@@ -54,6 +69,9 @@ class PaymentController:
 
     @staticmethod
     def delete_payment_by_id(payment_id: str):
+        """
+        It deletes a payment by id.
+        """
         try:
             PaymentServices.delete_payment_by_id(payment_id)
             return Response(content=f'Payment with payment id: "{payment_id}" successfully deleted.')
@@ -62,6 +80,9 @@ class PaymentController:
 
     @staticmethod
     def delete_payment_by_order_id(order_id: str):
+        """
+        It deletes a payment by order id.
+        """
         try:
             PaymentServices.delete_payment_by_order_id(order_id)
             return Response(content=f'Payment with order id: "{order_id}" successfully deleted.')
@@ -70,6 +91,9 @@ class PaymentController:
 
     @staticmethod
     def update_payment_amount(order_id: str):
+        """
+        It updates the payment amount for a given order id
+        """
         try:
             return PaymentServices.update_payment_amount(order_id)
         except OrderNotFoundException:

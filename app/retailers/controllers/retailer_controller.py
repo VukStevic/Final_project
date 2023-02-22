@@ -8,6 +8,9 @@ from app.retailers.services import RetailerServices
 class RetailerController:
     @staticmethod
     def create_retailer(name, hq_location, landline, business_email, business_type_id, user_id):
+        """
+        It creates a retailer
+        """
         try:
             retailer = RetailerServices.create_retailer(name, hq_location, landline, business_email, 
                                                         business_type_id, user_id)
@@ -22,11 +25,17 @@ class RetailerController:
 
     @staticmethod
     def get_all_retailers():
+        """
+        This function returns a list of all retailers in the database
+        """
         retailers = RetailerServices.get_all_retailers()
         return retailers
 
     @staticmethod
     def get_retailer_by_id(retailer_id: str):
+        """
+        It gets a retailer by id
+        """
         retailer = RetailerServices.get_retailer_by_id(retailer_id)
         if retailer:
             return retailer
@@ -38,6 +47,9 @@ class RetailerController:
 
     @staticmethod
     def delete_retailer_by_id(retailer_id: str):
+        """
+        It takes a retailer_id as a string, and deletes the retailer with that id
+        """
         try:
             RetailerServices.delete_retailer_by_id(retailer_id)
             return {"message": f"Retailer with provided id, {retailer_id}, is deleted."}
@@ -45,28 +57,10 @@ class RetailerController:
             raise HTTPException(status_code=400, detail=str(e))
 
     @staticmethod
-    def update_retailer_name(retailer_id: str, name: str):
-        try:
-            return RetailerServices.update_retailer_name(retailer_id, name)
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=str(e))
-
-    @staticmethod
-    def update_retailer_landline(retailer_id: str, landline: str):
-        try:
-            return RetailerServices.update_retailer_landline(retailer_id, landline)
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=str(e))
-
-    @staticmethod
-    def update_retailer_business_email(retailer_id: str, business_email: str):
-        try:
-            return RetailerServices.update_retailer_business_email(retailer_id, business_email)
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=str(e))
-
-    @staticmethod
     def update_retailer(retailer_id: str, name: str, hq_location: str, landline: str, business_email: str):
+        """
+        It updates a retailer's details
+        """
         try:
             return RetailerServices.update_retailer(retailer_id, name, hq_location, landline, business_email)
         except RetailerNotFound as e:

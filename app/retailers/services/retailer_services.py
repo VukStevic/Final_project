@@ -6,6 +6,9 @@ from app.retailers.repositories import RetailerRepository
 class RetailerServices:
     @staticmethod
     def create_retailer(name, hq_location, landline, business_email, business_type_id, user_id):
+        """
+        It creates a retailer
+        """
         with SessionLocal() as db:
             try:
                 retailer_repository = RetailerRepository(db)
@@ -16,18 +19,27 @@ class RetailerServices:
 
     @staticmethod
     def get_all_retailers():
+        """
+        It gets all the retailers from the database
+        """
         with SessionLocal() as db:
             retailer_repository = RetailerRepository(db)
             return retailer_repository.get_all_retailers()
 
     @staticmethod
     def get_retailer_by_id(retailer_id: str):
+        """
+        > This function gets a retailer by id
+        """
         with SessionLocal() as db:
             retailer_repository = RetailerRepository(db)
             return retailer_repository.get_retailer_by_id(retailer_id)
 
     @staticmethod
     def delete_retailer_by_id(retailer_id: str):
+        """
+        It deletes a retailer from the database by its id
+        """
         try:
             with SessionLocal() as db:
                 retailer_repository = RetailerRepository(db)
@@ -36,34 +48,10 @@ class RetailerServices:
             raise e
 
     @staticmethod
-    def update_retailer_name(retailer_id: str, name: str):
-        with SessionLocal() as db:
-            try:
-                retailer_repository = RetailerRepository(db)
-                return retailer_repository.update_retailer_name(retailer_id, name)
-            except Exception as e:
-                raise e
-
-    @staticmethod
-    def update_retailer_landline(retailer_id: str, landline: str):
-        with SessionLocal() as db:
-            try:
-                retailer_repository = RetailerRepository(db)
-                return retailer_repository.update_retailer_landline(retailer_id, landline)
-            except Exception as e:
-                raise e
-
-    @staticmethod
-    def update_retailer_business_email(retailer_id: str, business_email: str):
-        with SessionLocal() as db:
-            try:
-                retailer_repository = RetailerRepository(db)
-                return retailer_repository.update_retailer_business_email(retailer_id, business_email)
-            except Exception as e:
-                raise e
-
-    @staticmethod
     def update_retailer(retailer_id: str, name: str, hq_location: str, landline: str, business_email: str):
+        """
+        It updates a retailer's details in the database
+        """
         with SessionLocal() as db:
             try:
                 retailer_repository = RetailerRepository(db)

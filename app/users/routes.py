@@ -42,9 +42,10 @@ def get_all_users():
     return UserController.get_all_users()
 
 
-@user_router.put("/update/is_active", response_model=UserSchema, dependencies=[Depends(JWTBearer("super_user"))])
-def update_user_is_active(user: UserSchemaUpdate):
-    return UserController.update_user_is_active(user_id=user.user_id, is_active=user.is_active)
+@user_router.put("/update-user", response_model=UserSchema, dependencies=[Depends(JWTBearer("super_user"))])
+def update_user(user: UserSchemaUpdate):
+    return UserController.update_user(user_id=user.user_id, username=user.username, password=user.password,
+                                      is_active=user.is_active)
 
 
 @user_router.delete("/", dependencies=[Depends(JWTBearer("super_user"))])

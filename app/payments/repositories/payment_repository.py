@@ -13,6 +13,9 @@ class PaymentRepository:
         self.db = db
 
     def create_payment(self, order_id: str):
+        """
+        It creates a payment for an order
+        """
         try:
             order_products = OrderProductServices.get_order_product_by_order_id(order_id)
             payment_amount = 0
@@ -33,18 +36,30 @@ class PaymentRepository:
             raise e
 
     def get_all_payments(self):
+        """
+        It returns all the payments in the database.
+        """
         payments = self.db.query(Payment).all()
         return payments
 
     def get_payment_by_id(self, payment_id: str):
+        """
+        It returns a payment object from the database, given a payment id
+        """
         payment = self.db.query(Payment).filter(Payment.id == payment_id).first()
         return payment
 
     def get_payment_by_order_id(self, order_id: str):
+        """
+        It returns the payment object for a given order_id
+        """
         payment = self.db.query(Payment).filter(Payment.order_id == order_id).first()
         return payment
 
     def delete_payment_by_id(self, payment_id: str):
+        """
+        It deletes a payment from the database by its id
+        """
         try:
             payment = self.db.query(Payment).filter(Payment.id == payment_id).first()
             self.db.delete(payment)
@@ -54,6 +69,9 @@ class PaymentRepository:
             raise e
 
     def delete_payment_by_order_id(self, order_id: str):
+        """
+        It deletes a payment from the database by order_id
+        """
         try:
             payment = self.db.query(Payment).filter(Payment.order_id == order_id).first()
             self.db.delete(payment)
@@ -63,6 +81,9 @@ class PaymentRepository:
             raise e
 
     def update_payment_amount(self, order_id: str):
+        """
+        It updates the payment amount of a payment with a given order id
+        """
         payment = self.db.query(Payment).filter(Payment.order_id == order_id).first()
         if not payment:
             raise PaymentNotFound(code=400, message=f"Payment with provided order id: {order_id} not found.")

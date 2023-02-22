@@ -27,11 +27,6 @@ def get_product_category_by_name(name: str):
     return ProductCategoryController.get_product_category_by_name(name=name)
 
 
-@product_category_router.put("/update-product_category-name", response_model=ProductCategorySchema)
-def update_product_category_name(product_category_id: str, name: str):
-    return ProductCategoryController.update_product_category_name(product_category_id=product_category_id, name=name)
-
-
 @product_category_router.put("/update-product_category", response_model=ProductCategorySchema)
 def update_product_category(product_category: ProductCategorySchemaUpdate):
     return ProductCategoryController.update_product_category(product_category_id=product_category.product_category_id,

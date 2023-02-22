@@ -2,7 +2,6 @@ from app.db import Base
 from sqlalchemy import Column, String, Float, ForeignKey
 from sqlalchemy.orm import relationship
 from uuid import uuid4
-from app.order_product.services import OrderProductServices
 
 
 class Payment(Base):

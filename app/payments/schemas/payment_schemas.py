@@ -1,13 +1,10 @@
 from pydantic import BaseModel, UUID4
-from typing import Optional
-from app.orders.schemas import OrderSchema
 
 
 class PaymentSchema(BaseModel):
     id: UUID4
     payment_amount: float
     order_id: str
-    # order: OrderSchema
 
     class Config:
         orm_mode = True

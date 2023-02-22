@@ -31,7 +31,7 @@ class OrderSchemaIn(BaseModel):
 class OrderSchemaUpdate(BaseModel):
     order_id: str
     type: Optional[str] = None
-    order_date: Optional[date] = None
+    order_date: Optional[str] = None
 
     class Config:
         orm_mode = True

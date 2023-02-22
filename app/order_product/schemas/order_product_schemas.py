@@ -1,7 +1,5 @@
 from typing import Optional
 from pydantic import BaseModel, UUID4
-from app.orders.schemas import OrderSchema
-from app.products.schemas import ProductSchema
 
 
 class OrderProductSchema(BaseModel):
@@ -10,8 +8,6 @@ class OrderProductSchema(BaseModel):
     wholesaler_product_id: str
     quantity: float
     price: float
-    # order: OrderSchema
-    # product: ProductSchema
 
     class Config:
         orm_mode = True
@@ -39,6 +35,3 @@ class AveragePriceSchema(BaseModel):
 
     class Config:
         orm_mode = True
-
-
-
