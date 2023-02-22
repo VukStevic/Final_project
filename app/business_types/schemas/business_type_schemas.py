@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel, UUID4
 
 
@@ -19,8 +20,9 @@ class BusinessTypeSchemaIn(BaseModel):
 
 
 class BusinessTypeSchemaUpdate(BaseModel):
-    name: str
-    description: str
+    id: str
+    name: Optional[str] = None
+    description: Optional[str] = None
 
     class Config:
         orm_mode = True

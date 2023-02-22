@@ -1,0 +1,13 @@
+[tool.black]
+line-length = 140
+exclude = """
+/(
+    /.git
+    | /.env
+    | /env-template
+    | /.venv
+    | /init_db
+    | /.__pycache__
+    | /.idea
+)/
+"""

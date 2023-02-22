@@ -16,9 +16,12 @@ class WholesalerHasProductsServices:
 
     @staticmethod
     def get_all_wholesaler_products():
-        with SessionLocal() as db:
-            wholesaler_has_products_repository = WholesalerHasProductsRepository(db)
-            return wholesaler_has_products_repository.get_all_wholesaler_products()
+        try:
+            with SessionLocal() as db:
+                wholesaler_has_products_repository = WholesalerHasProductsRepository(db)
+                return wholesaler_has_products_repository.get_all_wholesaler_products()
+        except Exception as e:
+            raise e
 
     @staticmethod
     def get_wholesaler_product_by_wholesaler_id(wholesaler_id: str):
@@ -79,5 +82,15 @@ class WholesalerHasProductsServices:
                 return wholesaler_product_repository.update_wholesaler_product_quantity_available(wholesaler_id,
                                                                                                   product_id,
                                                                                                   quantity_available)
+            except Exception as e:
+                raise e
+
+    @staticmethod
+    def update_wholesaler_product(id: str, wholesaler_id: str, product_id: str, price: float, quantity_available: float):
+        with SessionLocal() as db:
+            try:
+                wholesaler_product_repository = WholesalerHasProductsRepository(db)
+                return wholesaler_product_repository.update_wholesaler_product(id, wholesaler_id, product_id, price,
+                                                                               quantity_available)
             except Exception as e:
                 raise e

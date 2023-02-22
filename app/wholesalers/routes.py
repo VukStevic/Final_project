@@ -42,3 +42,10 @@ def update_wholesaler_landline(wholesaler_id: str, landline: str):
 @wholesaler_router.put("/update/business-email", response_model=WholesalerSchema)
 def update_wholesaler_business_email(wholesaler_id: str, business_email: str):
     return WholesalerController.update_wholesaler_business_email(wholesaler_id, business_email)
+
+
+@wholesaler_router.put("/update-wholesaler", response_model=WholesalerSchema)
+def update_wholesaler(wholesaler: WholesalerSchemaUpdate):
+    return WholesalerController.update_wholesaler(wholesaler_id=wholesaler.wholesaler_id, name=wholesaler.name,
+                                                  landline=wholesaler.landline, hq_location=wholesaler.hq_location,
+                                                  business_email=wholesaler.business_email)

@@ -56,3 +56,17 @@ class BusinessTypeRepository:
             return business_type
         except Exception as e:
             raise e
+
+    def update_business_type(self, business_type_id: str, name: str, description: str):
+        try:
+            business_type = self.db.query(BusinessType).filter(BusinessType.id == business_type_id).first()
+            if name is not None:
+                business_type.name = name
+            if description is not None:
+                business_type.description = description
+            self.db.add(business_type)
+            self.db.commit()
+            self.db.refresh(business_type)
+            return business_type
+        except Exception as e:
+            raise e

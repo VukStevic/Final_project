@@ -56,11 +56,11 @@ class PaymentStatusServices:
             raise e
 
     @staticmethod
-    def update_payment_status(id: str, status_code: str):
+    def update_payment_status(id: str, status_code: str, status_description: str):
         with SessionLocal() as db:
             try:
                 payment_status_repository = PaymentStatusRepository(db)
-                return payment_status_repository.update_payment_status(id, status_code)
+                return payment_status_repository.update_payment_status(id, status_code, status_description)
             except Exception as e:
                 raise e
 

@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from app.order_product.schemas import OrderProductSchema, OrderProductSchemaIn
+from app.order_product.schemas import OrderProductSchema, OrderProductSchemaIn, OrderProductSchemaUpdate
 from app.order_product.controllers import OrderProductController
 from app.users.controllers import JWTBearer
 
@@ -32,6 +32,11 @@ def get_order_product_by_wholesaler_product_id(wholesaler_product_id: str):
 @order_product_router.get("/get-order-product-by-id", response_model=OrderProductSchema)
 def get_order_product_by_id(id: str):
     return OrderProductController.get_order_product_by_id(id=id)
+
+
+@order_product_router.put("/update-order-product", response_model=OrderProductSchema)
+def update_order_product(order_product: OrderProductSchemaUpdate):
+    return OrderProductController.update_order_product(id=order_product.id, quantity=order_product.quantity)
 
 
 @order_product_router.delete("/delete-order-product-by-order-id", dependencies=[Depends(JWTBearer("super_user"))])

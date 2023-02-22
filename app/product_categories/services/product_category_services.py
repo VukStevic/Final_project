@@ -1,3 +1,4 @@
+from app.product_categories.exceptions import ProductCategoryNotFound
 from app.product_categories.repositories import ProductCategoryRepository
 from app.db.database import SessionLocal
 
@@ -50,11 +51,12 @@ class ProductCategoryServices:
                 raise e
 
     @staticmethod
-    def update_product_category_description(product_category_id: str, description: str):
+    def update_product_category(product_category_id: str, name: str, description: str):
         with SessionLocal() as db:
             try:
                 product_category_repository = ProductCategoryRepository(db)
-                product_category = product_category_repository.update_product_category_description(product_category_id, description)
+                product_category = product_category_repository.update_product_category(product_category_id, name,
+                                                                                       description)
                 return product_category
-            except Exception as e:
+            except ProductCategoryNotFound as e:
                 raise e

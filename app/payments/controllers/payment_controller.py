@@ -1,6 +1,4 @@
 from sqlalchemy.exc import IntegrityError
-
-from app.order_product.exceptions import OrderProductNotFoundException
 from app.orders.exceptions import OrderNotFoundException
 from app.payments.services import PaymentServices
 from fastapi import HTTPException, Response
@@ -15,7 +13,9 @@ class PaymentController:
         except OrderNotFoundException:
             raise HTTPException(status_code=400, detail=f"Order with provided order id: {order_id} not found.")
         except IntegrityError:
-            raise HTTPException(status_code=400, detail=f"Payment with provided order id: {order_id} already exists.")
+            raise HTTPException(status_code=400, detail=f"Payment with order id: {order_id} already exists. "
+                                                        f"If additional products are added to the order, use "
+                                                        f"update request to update the payment amount.")
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
 

@@ -12,7 +12,7 @@ def create_user(user: UserSchemaIn):
     return UserController.create_user(user.username, user.email, user.password)
 
 
-@user_router.post("/add-new-super-user", response_model=UserSchema, dependencies=[Depends(JWTBearer("classic_user"))])
+@user_router.post("/add-new-super-user", response_model=UserSchema, dependencies=[Depends(JWTBearer("super_user"))])
 def create_super_user(user: UserSchemaIn):
     return UserController.create_super_user(user.username, user.email, user.password)
 
@@ -42,11 +42,11 @@ def get_all_users():
     return UserController.get_all_users()
 
 
+@user_router.put("/update/is_active", response_model=UserSchema, dependencies=[Depends(JWTBearer("super_user"))])
+def update_user_is_active(user: UserSchemaUpdate):
+    return UserController.update_user_is_active(user_id=user.user_id, is_active=user.is_active)
+
+
 @user_router.delete("/", dependencies=[Depends(JWTBearer("super_user"))])
 def delete_user_by_id(user_id: str):
     return UserController.delete_user_by_id(user_id)
-
-
-@user_router.put("/update/is_active", response_model=UserSchema, dependencies=[Depends(JWTBearer("super_user"))])
-def update_user(user_id: str, is_active: bool):
-    return UserController.update_user_is_active(user_id, is_active)

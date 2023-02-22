@@ -26,9 +26,9 @@ class OrderStatusSchemaIn(BaseModel):
 
 
 class OrderStatusSchemaUpdate(BaseModel):
-    status_code: Optional[str]
-    description: Optional[str]
-    date_and_time: Optional[str]
+    id: str
+    status_code: Optional[str] = None
+    description: Optional[str] = None
 
     class Config:
         orm_mode = True

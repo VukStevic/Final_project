@@ -26,9 +26,9 @@ class PaymentStatusSchemaIn(BaseModel):
 
 
 class PaymentStatusSchemaUpdate(BaseModel):
-    status_code: Optional[str]
-    status_description: Optional[str]
-    date_and_time: Optional[str]
+    id: str
+    status_code: Optional[str] = None
+    status_description: Optional[str] = None
 
     class Config:
         orm_mode = True

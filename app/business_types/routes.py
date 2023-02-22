@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from app.business_types.schemas import BusinessTypeSchema, BusinessTypeSchemaIn
+from app.business_types.schemas import BusinessTypeSchema, BusinessTypeSchemaIn, BusinessTypeSchemaUpdate
 from app.business_types.controllers import BusinessTypeController
 from app.users.controllers import JWTBearer
 
@@ -31,6 +31,12 @@ def update_business_type_name(business_type_id: str, name: str):
 def update_business_type_description(business_type_id: str, description: str):
     return BusinessTypeController.update_business_type_description(business_type_id=business_type_id,
                                                                    description=description)
+
+
+@business_type_router.put("/update-business-type", response_model=BusinessTypeSchema)
+def update_business_type(business_type: BusinessTypeSchemaUpdate):
+    return BusinessTypeController.update_business_type(business_type_id=business_type.id, name=business_type.name,
+                                                       description=business_type.description)
 
 
 @business_type_router.delete("/delete-business-type-by-id", dependencies=[Depends(JWTBearer("super_user"))])

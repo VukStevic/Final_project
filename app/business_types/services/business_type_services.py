@@ -52,3 +52,13 @@ class BusinessTypeServices:
                 return business_type
             except Exception as e:
                 raise e
+
+    @staticmethod
+    def update_business_type(business_type_id: str, name: str, description: str):
+        with SessionLocal() as db:
+            try:
+                business_type_repository = BusinessTypeRepository(db)
+                business_type = business_type_repository.update_business_type(business_type_id, name, description)
+                return business_type
+            except Exception as e:
+                raise e

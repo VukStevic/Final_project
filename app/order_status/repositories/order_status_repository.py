@@ -53,11 +53,10 @@ class OrderStatusRepository:
         except Exception as e:
             raise e
 
-    def update_order_status(self, id: str, status_code: str):
+    def update_order_status_description(self, id: str, description: str):
         try:
             order_status = self.db.query(OrderStatus).filter(OrderStatus.id == id).first()
-            order_status.status_code = status_code
-            order_status.date_and_time = datetime.datetime.now().strftime("%d-%m-%Y, %H:%M:%S")
+            order_status.description = description
             self.db.add(order_status)
             self.db.commit()
             self.db.refresh(order_status)
@@ -65,10 +64,14 @@ class OrderStatusRepository:
         except Exception as e:
             raise e
 
-    def update_order_status_description(self, id: str, description: str):
+    def update_order_status(self, id: str, status_code: str, description: str):
         try:
             order_status = self.db.query(OrderStatus).filter(OrderStatus.id == id).first()
-            order_status.description = description
+            order_status.date_and_time = datetime.datetime.now().strftime("%d-%m-%Y, %H:%M:%S")
+            if status_code is not None:
+                order_status.status_code = status_code
+            if description is not None:
+                order_status.description = description
             self.db.add(order_status)
             self.db.commit()
             self.db.refresh(order_status)

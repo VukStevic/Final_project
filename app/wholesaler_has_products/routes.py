@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
-
 from app.users.controllers import JWTBearer
-from app.wholesaler_has_products.schemas import WholesalerHasProductsSchema, WholesalerHasProductsSchemaIn
+from app.wholesaler_has_products.schemas import WholesalerHasProductsSchema, WholesalerHasProductsSchemaIn, \
+    WholesalerHasProductsSchemaUpdate
 from app.wholesaler_has_products.controllers import WholesalerHasProductsController
 
 
@@ -53,6 +53,14 @@ def update_wholesaler_product_quantity_available(wholesaler_id: str, product_id:
         wholesaler_id=wholesaler_id,
         product_id=product_id,
         quantity_available=quantity_available)
+
+
+@wholesaler_has_products_router.put("/update-wholesaler-product", response_model=WholesalerHasProductsSchema)
+def update_wholesaler_product(wholesaler_product: WholesalerHasProductsSchemaUpdate):
+    return WholesalerHasProductsController.update_wholesaler_product(
+        id=wholesaler_product.id, wholesaler_id=wholesaler_product.wholesaler_id,
+        quantity_available=wholesaler_product.quantity_available, price=wholesaler_product.price,
+        product_id=wholesaler_product.product_id)
 
 
 @wholesaler_has_products_router.delete("/delete-wholesaler-product-by-wholesaler-id",

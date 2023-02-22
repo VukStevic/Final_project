@@ -63,9 +63,9 @@ class OrderStatusController:
             raise HTTPException(status_code=400, detail=str(e))
 
     @staticmethod
-    def update_order_status(id: str, status_code: str):
+    def update_order_status(id: str, status_code: str, description: str):
         try:
-            return OrderStatusServices.update_order_status(id, status_code)
+            return OrderStatusServices.update_order_status(id, status_code, description)
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
 

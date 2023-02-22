@@ -63,9 +63,9 @@ class PaymentStatusController:
             raise HTTPException(status_code=400, detail=str(e))
 
     @staticmethod
-    def update_payment_status(id: str, status_code: str):
+    def update_payment_status(id: str, status_code: str, status_description: str):
         try:
-            return PaymentStatusServices.update_payment_status(id, status_code)
+            return PaymentStatusServices.update_payment_status(id, status_code, status_description)
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
 

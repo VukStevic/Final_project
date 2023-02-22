@@ -40,3 +40,10 @@ def update_retailer_landline(retailer_id: str, landline: str):
 @retailer_router.put("/update/business-email", response_model=RetailerSchema)
 def update_retailer_business_email(retailer_id: str, business_email: str):
     return RetailerController.update_retailer_business_email(retailer_id, business_email)
+
+
+@retailer_router.put("/update-retailer", response_model=RetailerSchema)
+def update_retailer(retailer: RetailerSchemaUpdate):
+    return RetailerController.update_retailer(retailer_id=retailer.retailer_id, name=retailer.name,
+                                              hq_location=retailer.hq_location, landline=retailer.landline,
+                                              business_email=retailer.business_email)

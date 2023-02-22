@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from app.order_status.schemas import OrderStatusSchema, OrderStatusSchemaIn
+from app.order_status.schemas import OrderStatusSchema, OrderStatusSchemaIn, OrderStatusSchemaUpdate
 from app.order_status.controllers import OrderStatusController
 from app.users.controllers import JWTBearer
 
@@ -34,8 +34,9 @@ def get_order_status_by_date_and_time(date_and_time: str):
 
 
 @order_status_router.put("/update-order_status", response_model=OrderStatusSchema)
-def update_order_status(id: str, status_code: str):
-    return OrderStatusController.update_order_status(id=id, status_code=status_code)
+def update_order_status(order_status: OrderStatusSchemaUpdate):
+    return OrderStatusController.update_order_status(id=order_status.id, status_code=order_status.status_code,
+                                                     description=order_status.description)
 
 
 @order_status_router.put("/update-order_status-description", response_model=OrderStatusSchema)

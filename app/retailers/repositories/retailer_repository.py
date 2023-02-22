@@ -66,3 +66,21 @@ class RetailerRepository:
             return retailer
         except Exception as e:
             raise e
+
+    def update_retailer(self, retailer_id: str, name: str, hq_location: str, landline: str, business_email: str):
+        try:
+            retailer = self.db.query(Retailer).filter(Retailer.id == retailer_id).first()
+            if hq_location is not None:
+                retailer.hq_location = hq_location
+            if name is not None:
+                retailer.name = name
+            if landline is not None:
+                retailer.landline = landline
+            if business_email is not None:
+                retailer.business_email = business_email
+            self.db.add(retailer)
+            self.db.commit()
+            self.db.refresh(retailer)
+            return retailer
+        except Exception as e:
+            raise e

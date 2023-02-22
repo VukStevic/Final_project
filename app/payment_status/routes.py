@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from app.payment_status.schemas import PaymentStatusSchema, PaymentStatusSchemaIn
+from app.payment_status.schemas import PaymentStatusSchema, PaymentStatusSchemaIn, PaymentStatusSchemaUpdate
 from app.payment_status.controllers import PaymentStatusController
 from app.users.controllers import JWTBearer
 
@@ -34,8 +34,9 @@ def get_payment_status_by_date_and_time(date_and_time: str):
 
 
 @payment_status_router.put("/update-payment_status", response_model=PaymentStatusSchema)
-def update_payment_status(id: str, status_code: str):
-    return PaymentStatusController.update_payment_status(id=id, status_code=status_code)
+def update_payment_status(payment_status: PaymentStatusSchemaUpdate):
+    return PaymentStatusController.update_payment_status(id=payment_status.id, status_code=payment_status.status_code,
+                                                         status_description=payment_status.status_description)
 
 
 @payment_status_router.put("/update-payment_status-description", response_model=PaymentStatusSchema)

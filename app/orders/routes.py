@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from app.orders.schemas import OrderSchema, OrderSchemaIn, OrderSchemaAnalytics
+from app.orders.schemas import OrderSchema, OrderSchemaIn, OrderSchemaAnalytics, OrderSchemaUpdate
 from app.orders.controllers import OrderController
 from app.users.controllers import JWTBearer
 
@@ -40,6 +40,11 @@ def update_order_type(order_id: str, type: str):
 @order_router.put("/update-order-date", response_model=OrderSchema)
 def update_order_date(order_id: str, order_date: str):
     return OrderController.update_order_date(order_id=order_id, order_date=order_date)
+
+
+@order_router.put("/update-order", response_model=OrderSchema)
+def update_order(order: OrderSchemaUpdate):
+    return OrderController.update_order(order_id=order.order_id, type=order.type, order_date=order.order_date)
 
 
 @order_router.delete("/delete-order-by-id", dependencies=[Depends(JWTBearer("super_user"))])

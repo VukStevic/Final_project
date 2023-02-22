@@ -85,6 +85,18 @@ class OrderProductRepository:
         except Exception as e:
             raise e
 
+    def update_order_product(self, id: str, quantity: float):
+        try:
+            order_product = self.db.query(OrderProduct).filter(OrderProduct.id == id).first()
+            if quantity is not None:
+                order_product.quantity = quantity
+            self.db.add(order_product)
+            self.db.commit()
+            self.db.refresh(order_product)
+            return order_product
+        except Exception as e:
+            raise e
+
     def delete_order_product_by_order_id(self, order_id: str):
         try:
             order_product = self.db.query(OrderProduct).filter(OrderProduct.order_id == order_id).first()

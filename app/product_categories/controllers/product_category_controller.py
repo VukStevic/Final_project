@@ -1,4 +1,6 @@
 from sqlalchemy.exc import IntegrityError
+
+from app.product_categories.exceptions import ProductCategoryNotFound
 from app.product_categories.services import ProductCategoryServices
 from fastapi import HTTPException, Response
 
@@ -53,8 +55,8 @@ class ProductCategoryController:
             raise HTTPException(status_code=500, detail=str(e))
 
     @staticmethod
-    def update_product_category_description(product_category_id: str, description: str):
+    def update_product_category(product_category_id: str, name: str, description: str):
         try:
-            return ProductCategoryServices.update_product_category_description(product_category_id, description)
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=str(e))
+            return ProductCategoryServices.update_product_category(product_category_id, name, description)
+        except ProductCategoryNotFound as e:
+            raise HTTPException(status_code=400, detail=str(e))

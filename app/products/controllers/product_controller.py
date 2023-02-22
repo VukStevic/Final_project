@@ -46,8 +46,8 @@ class ProductController:
             raise HTTPException(status_code=400, detail=str(e))
 
     @staticmethod
-    def update_product_description(product_id: str, description: str):
+    def update_product(product_id: str, name: str, description: str):
         try:
-            return ProductServices.update_product_description(product_id, description)
+            return ProductServices.update_product(product_id, name, description)
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))

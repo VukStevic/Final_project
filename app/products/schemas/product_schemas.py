@@ -24,8 +24,9 @@ class ProductSchemaIn(BaseModel):
 
 
 class ProductSchemaUpdate(BaseModel):
-    name: Optional[str]
-    description: Optional[str]
+    product_id: str
+    name: Optional[str] = None
+    description: Optional[str] = None
 
     class Config:
         orm_mode = True

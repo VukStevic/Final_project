@@ -62,3 +62,10 @@ class RetailerController:
             return RetailerServices.update_retailer_business_email(retailer_id, business_email)
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
+
+    @staticmethod
+    def update_retailer(retailer_id: str, name: str, hq_location: str, landline: str, business_email: str):
+        try:
+            return RetailerServices.update_retailer(retailer_id, name, hq_location, landline, business_email)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))

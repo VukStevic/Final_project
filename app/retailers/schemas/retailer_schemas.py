@@ -30,11 +30,11 @@ class RetailerSchemaIn(BaseModel):
 
 
 class RetailerSchemaUpdate(BaseModel):
-    name: Optional[str]
-    hq_location: Optional[str]
-    landline: Optional[str]
-    business_email: Optional[EmailStr]
-    business_type_id: Optional[str]
+    retailer_id: str
+    name: Optional[str] = None
+    hq_location: Optional[str] = None
+    landline: Optional[str] = None
+    business_email: Optional[EmailStr] = None
 
     class Config:
         orm_mode = True

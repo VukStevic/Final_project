@@ -74,6 +74,13 @@ class OrderProductController:
             raise HTTPException(status_code=400, detail=str(e))
 
     @staticmethod
+    def update_order_product(id: str, quantity: float):
+        try:
+            return OrderProductServices.update_order_product(id, quantity)
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=str(e))
+
+    @staticmethod
     def delete_order_product_by_order_id(order_id: str):
         try:
             OrderProductServices.delete_order_product_by_order_id(order_id)

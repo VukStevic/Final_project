@@ -49,3 +49,10 @@ class BusinessTypeController:
             return BusinessTypeServices.update_business_type_description(business_type_id, description)
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
+
+    @staticmethod
+    def update_business_type(business_type_id: str, name: str, description: str):
+        try:
+            return BusinessTypeServices.update_business_type(business_type_id, name, description)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))

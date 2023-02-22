@@ -60,3 +60,13 @@ class WholesalerServices:
                 return wholesaler_repository.update_wholesaler_business_email(wholesaler_id, business_email)
             except Exception as e:
                 raise e
+
+    @staticmethod
+    def update_wholesaler(wholesaler_id: str, name: str, hq_location: str, landline: str, business_email: str):
+        with SessionLocal() as db:
+            try:
+                wholesaler_repository = WholesalerRepository(db)
+                return wholesaler_repository.update_wholesaler(wholesaler_id, name, hq_location, landline,
+                                                               business_email)
+            except Exception as e:
+                raise e

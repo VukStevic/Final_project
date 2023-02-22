@@ -84,6 +84,15 @@ class OrderProductServices:
             raise e
 
     @staticmethod
+    def update_order_product(id: str, quantity: float):
+        try:
+            with SessionLocal() as db:
+                order_product_repository = OrderProductRepository(db)
+                return order_product_repository.update_order_product(id, quantity)
+        except Exception as e:
+            raise e
+
+    @staticmethod
     def delete_order_product_by_wholesaler_product_id(wholesaler_product_id: str):
         try:
             with SessionLocal() as db:

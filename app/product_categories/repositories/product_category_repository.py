@@ -1,5 +1,6 @@
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
+from app.product_categories.exceptions import ProductCategoryNotFound
 from app.product_categories.models import ProductCategory
 
 
@@ -50,13 +51,17 @@ class ProductCategoryRepository:
         except Exception as e:
             raise e
 
-    def update_product_category_description(self, product_category_id: str, description: str):
+    def update_product_category(self, product_category_id: str, name: str, description: str):
         try:
             product_category = self.db.query(ProductCategory).filter(ProductCategory.id == product_category_id).first()
-            product_category.description = description
+            if name is not None:
+                product_category.name = name
+            if description is not None:
+                product_category.description = description
             self.db.add(product_category)
             self.db.commit()
             self.db.refresh(product_category)
             return product_category
-        except Exception as e:
-            raise e
+        except Exception:
+            raise ProductCategoryNotFound(code=400, message=f"Product category with provided id: {product_category_id}"
+                                                            f" does not exist.")

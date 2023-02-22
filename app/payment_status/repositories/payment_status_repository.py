@@ -54,11 +54,14 @@ class PaymentStatusRepository:
         except Exception as e:
             raise e
 
-    def update_payment_status(self, id: str, status_code: str):
+    def update_payment_status(self, id: str, status_code: str, status_description: str):
         try:
             payment_status = self.db.query(PaymentStatus).filter(PaymentStatus.id == id).first()
-            payment_status.status_code = status_code
             payment_status.date_and_time = datetime.datetime.now().strftime("%d-%m-%Y, %H:%M:%S")
+            if status_code is not None:
+                payment_status.status_code = status_code
+            if status_description is not None:
+                payment_status.status_description = status_description
             self.db.add(payment_status)
             self.db.commit()
             self.db.refresh(payment_status)

@@ -39,10 +39,13 @@ class ProductRepository:
         except Exception as e:
             raise e
 
-    def update_product_description(self, product_id: str, description: str):
+    def update_product(self, product_id: str, name: str, description: str):
         try:
             product = self.db.query(Product).filter(Product.id == product_id).first()
-            product.description = description
+            if name is not None:
+                product.name = name
+            if description is not None:
+                product.description = description
             self.db.add(product)
             self.db.commit()
             self.db.refresh(product)

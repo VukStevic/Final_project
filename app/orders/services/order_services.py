@@ -76,3 +76,15 @@ class OrderServices:
                 return order
             except Exception as e:
                 raise e
+
+    @staticmethod
+    def update_order(order_id: str, type: str, order_date: str):
+        with SessionLocal() as db:
+            try:
+                order_repository = OrderRepository(db)
+                order = order_repository.update_order(order_id, type, order_date)
+                return order
+            except Exception as e:
+                raise e
+
+

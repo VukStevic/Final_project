@@ -56,11 +56,11 @@ class OrderStatusServices:
             raise e
 
     @staticmethod
-    def update_order_status(id: str, status_code: str):
+    def update_order_status(id: str, status_code: str, description: str):
         with SessionLocal() as db:
             try:
                 order_status_repository = OrderStatusRepository(db)
-                return order_status_repository.update_order_status(id, status_code)
+                return order_status_repository.update_order_status(id, status_code, description)
             except Exception as e:
                 raise e
 

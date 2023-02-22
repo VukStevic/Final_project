@@ -84,3 +84,21 @@ class WholesalerHasProductsRepository:
             return wholesaler_product
         except Exception as e:
             raise e
+
+    def update_wholesaler_product(self, id: str, wholesaler_id: str, product_id: str, price: float,
+                                  quantity_available: float):
+        try:
+            wholesaler_product = self.db.query(WholesalerHasProducts)\
+                .filter(WholesalerHasProducts.id == id,
+                        WholesalerHasProducts.wholesaler_id == wholesaler_id,
+                        WholesalerHasProducts.product_id == product_id).first()
+            if price is not None:
+                wholesaler_product.price = price
+            if quantity_available is not None:
+                wholesaler_product.quantity_available = quantity_available
+            self.db.add(wholesaler_product)
+            self.db.commit()
+            self.db.refresh(wholesaler_product)
+            return wholesaler_product
+        except Exception as e:
+            raise e

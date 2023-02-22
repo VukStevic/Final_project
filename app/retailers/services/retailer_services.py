@@ -60,3 +60,12 @@ class RetailerServices:
                 return retailer_repository.update_retailer_business_email(retailer_id, business_email)
             except Exception as e:
                 raise e
+
+    @staticmethod
+    def update_retailer(retailer_id: str, name: str, hq_location: str, landline: str, business_email: str):
+        with SessionLocal() as db:
+            try:
+                retailer_repository = RetailerRepository(db)
+                return retailer_repository.update_retailer(retailer_id, name, hq_location, landline, business_email)
+            except Exception as e:
+                raise e

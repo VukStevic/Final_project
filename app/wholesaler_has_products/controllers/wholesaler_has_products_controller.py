@@ -20,8 +20,11 @@ class WholesalerHasProductsController:
 
     @staticmethod
     def get_all_wholesaler_products():
-        wholesaler_has_products = WholesalerHasProductsServices.get_all_wholesaler_products()
-        return wholesaler_has_products
+        try:
+            wholesaler_has_products = WholesalerHasProductsServices.get_all_wholesaler_products()
+            return wholesaler_has_products
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
 
     @staticmethod
     def get_wholesaler_product_by_wholesaler_id(wholesaler_id: str):
@@ -81,5 +84,13 @@ class WholesalerHasProductsController:
             return WholesalerHasProductsServices.update_wholesaler_product_quantity_available(wholesaler_id,
                                                                                               product_id,
                                                                                               quantity_available)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
+
+    @staticmethod
+    def update_wholesaler_product(id: str, wholesaler_id: str, product_id: str, price: float, quantity_available: float):
+        try:
+            return WholesalerHasProductsServices.update_wholesaler_product(id, wholesaler_id, product_id, price,
+                                                                           quantity_available)
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))

@@ -20,8 +20,9 @@ class ProductCategorySchemaIn(BaseModel):
 
 
 class ProductCategorySchemaUpdate(BaseModel):
-    name: Optional[str]
-    description: Optional[str]
+    product_category_id: str
+    name: Optional[str] = None
+    description: Optional[str] = None
 
     class Config:
         orm_mode = True

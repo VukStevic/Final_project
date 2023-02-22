@@ -21,7 +21,7 @@ class PaymentSchemaIn(BaseModel):
 
 
 class PaymentSchemaUpdate(BaseModel):
-    payment_amount: Optional[float]
+    order_id: str
 
     class Config:
         orm_mode = True

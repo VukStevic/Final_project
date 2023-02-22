@@ -24,11 +24,8 @@ class UserSchemaIn(BaseModel):
 
 
 class UserSchemaUpdate(BaseModel):
-    username: Optional[str]
-    email: Optional[str]
-    password: Optional[str]
+    user_id: str
     is_active: Optional[bool]
-    is_superuser: Optional[bool]
 
     class Config:
         orm_mode = True

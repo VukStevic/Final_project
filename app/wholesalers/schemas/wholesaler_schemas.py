@@ -8,7 +8,7 @@ class WholesalerSchema(BaseModel):
     name: str
     hq_location: str
     landline: str
-    business_email: EmailStr
+    business_email: str
     business_type_id: UUID4
     user_id: UUID4
     user: UserSchema
@@ -21,7 +21,7 @@ class WholesalerSchemaIn(BaseModel):
     name: str
     hq_location: str
     landline: str
-    business_email: EmailStr
+    business_email: str
     business_type_id: str
     user_id: str
 
@@ -30,11 +30,11 @@ class WholesalerSchemaIn(BaseModel):
 
 
 class WholesalerSchemaUpdate(BaseModel):
-    name: Optional[str]
-    hq_location: Optional[str]
-    landline: Optional[str]
-    business_email: Optional[EmailStr]
-    business_type_id: Optional[str]
+    wholesaler_id: str
+    name: Optional[str] = None
+    landline: Optional[str] = None
+    business_email: Optional[EmailStr] = None
+    hq_location: Optional[str] = None
 
     class Config:
         orm_mode = True

@@ -83,3 +83,10 @@ class OrderController:
             return OrderServices.update_order_date(order_id, order_date)
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
+
+    @staticmethod
+    def update_order(order_id: str, type: str, order_date: str):
+        try:
+            return OrderServices.update_order(order_id, type, order_date)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))

@@ -80,3 +80,17 @@ class OrderRepository:
             return order
         except Exception as e:
             raise e
+
+    def update_order(self, order_id: str, type: str, order_date: str):
+        try:
+            order = self.db.query(Order).filter(Order.id == order_id).first()
+            if type is not None:
+                order.type = type
+            if order_date is not None:
+                order.order_date = order_date
+            self.db.add(order)
+            self.db.commit()
+            self.db.refresh(order)
+            return order
+        except Exception as e:
+            raise e

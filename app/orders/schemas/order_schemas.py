@@ -29,8 +29,9 @@ class OrderSchemaIn(BaseModel):
 
 
 class OrderSchemaUpdate(BaseModel):
-    type: Optional[str]
-    order_date: Optional[date]
+    order_id: str
+    type: Optional[str] = None
+    order_date: Optional[date] = None
 
     class Config:
         orm_mode = True

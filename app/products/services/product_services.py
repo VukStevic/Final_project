@@ -41,10 +41,10 @@ class ProductServices:
             raise e
 
     @staticmethod
-    def update_product_description(product_id: str, description: str):
+    def update_product(product_id: str, name: str, description: str):
         with SessionLocal() as db:
             try:
                 product_repository = ProductRepository(db)
-                return product_repository.update_product_description(product_id, description)
+                return product_repository.update_product(product_id, name, description)
             except Exception as e:
                 raise e

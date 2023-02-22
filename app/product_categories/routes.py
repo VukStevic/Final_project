@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from app.product_categories.schemas import ProductCategorySchema, ProductCategorySchemaIn
+from app.product_categories.schemas import ProductCategorySchema, ProductCategorySchemaIn, ProductCategorySchemaUpdate
 from app.product_categories.controllers import ProductCategoryController
 from app.users.controllers import JWTBearer
 
@@ -32,10 +32,11 @@ def update_product_category_name(product_category_id: str, name: str):
     return ProductCategoryController.update_product_category_name(product_category_id=product_category_id, name=name)
 
 
-@product_category_router.put("/update-product_category-description", response_model=ProductCategorySchema)
-def update_product_category_description(product_category_id: str, description: str):
-    return ProductCategoryController.update_product_category_description(product_category_id=product_category_id,
-                                                                         description=description)
+@product_category_router.put("/update-product_category", response_model=ProductCategorySchema)
+def update_product_category(product_category: ProductCategorySchemaUpdate):
+    return ProductCategoryController.update_product_category(product_category_id=product_category.product_category_id,
+                                                             name=product_category.name,
+                                                             description=product_category.description)
 
 
 @product_category_router.delete("/delete-product_category-by-id", dependencies=[Depends(JWTBearer("super_user"))])
